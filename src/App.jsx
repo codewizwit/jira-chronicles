@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { scenes } from "./data/scenes";
 import TitleScene from "./components/TitleScene";
 import VsScene from "./components/VsScene";
@@ -12,11 +12,32 @@ export default function JiraChronicles() {
   const [panelVisible, setPanelVisible] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional animation reset
-    setPanelVisible(false);
     const t = setTimeout(() => setPanelVisible(true), 100);
     return () => clearTimeout(t);
   }, [current]);
+
+  const goBack = useCallback(() => {
+    if (current > 0) {
+      setPanelVisible(false);
+      setCurrent(current - 1);
+    }
+  }, [current]);
+
+  const goNext = useCallback(() => {
+    if (current < scenes.length - 1) {
+      setPanelVisible(false);
+      setCurrent(current + 1);
+    }
+  }, [current]);
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "ArrowLeft") goBack();
+      if (e.key === "ArrowRight") goNext();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [goBack, goNext]);
 
   const scene = scenes[current];
 
@@ -62,30 +83,34 @@ export default function JiraChronicles() {
       >
         {scene.type === "title" && (
           <TitleScene
+            key={scene.id}
             scene={scene}
             isVisible={panelVisible}
-            onStart={() => setCurrent(1)}
+            onStart={() => {
+              setPanelVisible(false);
+              setCurrent(1);
+            }}
           />
         )}
 
         {scene.type === "vs" && (
-          <VsScene scene={scene} isVisible={panelVisible} />
+          <VsScene key={scene.id} scene={scene} isVisible={panelVisible} />
         )}
 
         {scene.type === "meta" && (
-          <MetaScene scene={scene} isVisible={panelVisible} />
+          <MetaScene key={scene.id} scene={scene} isVisible={panelVisible} />
         )}
 
         {scene.type === "finale" && (
-          <FinaleScene scene={scene} isVisible={panelVisible} />
+          <FinaleScene key={scene.id} scene={scene} isVisible={panelVisible} />
         )}
       </div>
 
       <Navigation
         current={current}
         total={scenes.length}
-        onBack={() => current > 0 && setCurrent(current - 1)}
-        onNext={() => current < scenes.length - 1 && setCurrent(current + 1)}
+        onBack={goBack}
+        onNext={goNext}
       />
     </div>
   );

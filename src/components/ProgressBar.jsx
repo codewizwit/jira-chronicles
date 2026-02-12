@@ -29,7 +29,7 @@ export default function ProgressBar({ current, total }) {
           top: 16,
           right: 20,
           zIndex: 100,
-          fontSize: 12,
+          fontSize: "clamp(12px, 1.2vw, 14px)",
           color: "rgba(255,255,255,0.3)",
           fontFamily: "'Space Mono', monospace",
         }}

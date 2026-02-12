@@ -44,12 +44,14 @@ export default function JiraChronicles() {
   return (
     <div
       style={{
-        minHeight: "100vh",
+        height: "100vh",
         background: "#0a0a0f",
         color: "#fff",
         fontFamily: "'IBM Plex Sans', sans-serif",
         position: "relative",
         overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Subtle grid background */}
@@ -72,13 +74,16 @@ export default function JiraChronicles() {
       {/* Content */}
       <div
         style={{
-          maxWidth: 640,
+          flex: 1,
+          maxWidth: 1060,
+          width: "100%",
           margin: "0 auto",
-          padding: "60px 24px 120px",
-          minHeight: "100vh",
+          padding: "72px clamp(24px, 4vw, 48px) 56px",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
+          justifyContent: "flex-start",
+          overflow: "hidden",
+          boxSizing: "border-box",
         }}
       >
         {scene.type === "title" && (

@@ -3,16 +3,27 @@ export default function TitleScene({ scene, isVisible, onStart }) {
     <>
       <div
         style={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "-5vh",
+        }}
+      >
+      <div
+        style={{
           textAlign: "center",
           opacity: isVisible ? 1 : 0,
           transform: isVisible ? "scale(1)" : "scale(0.95)",
           transition: "all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
       >
-        <div style={{ fontSize: 64, marginBottom: 24 }}>{scene.emoji}</div>
+        <div style={{ fontSize: "clamp(64px, 8vw, 80px)", marginBottom: 24 }}>
+          {scene.emoji}
+        </div>
         <h1
           style={{
-            fontSize: "clamp(36px, 8vw, 56px)",
+            fontSize: "clamp(36px, 8vw, 64px)",
             fontFamily: "'Playfair Display', serif",
             fontWeight: 900,
             lineHeight: 1.1,
@@ -27,7 +38,7 @@ export default function TitleScene({ scene, isVisible, onStart }) {
         </h1>
         <p
           style={{
-            fontSize: 18,
+            fontSize: "clamp(18px, 2vw, 22px)",
             color: "rgba(255,255,255,0.4)",
             fontFamily: "'Space Mono', monospace",
             letterSpacing: 2,
@@ -38,13 +49,14 @@ export default function TitleScene({ scene, isVisible, onStart }) {
         <div
           style={{
             marginTop: 48,
-            fontSize: 13,
+            fontSize: "clamp(13px, 1.4vw, 16px)",
             color: "rgba(255,255,255,0.25)",
             fontFamily: "'Space Mono', monospace",
           }}
         >
           tap anywhere to begin →
         </div>
+      </div>
       </div>
       <div
         onClick={onStart}

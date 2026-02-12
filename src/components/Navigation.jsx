@@ -10,22 +10,25 @@ export default function Navigation({ current, total, onBack, onNext }) {
         left: 0,
         right: 0,
         display: "flex",
+        justifyContent: "space-between",
         zIndex: 100,
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        background: "rgba(10, 10, 15, 0.85)",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
       }}
     >
       <button
         onClick={onBack}
         disabled={isFirst}
         style={{
-          flex: 1,
-          padding: "20px",
-          background: isFirst
-            ? "rgba(255,255,255,0.02)"
-            : "rgba(255,255,255,0.05)",
+          padding: "14px clamp(24px, 4vw, 48px)",
+          background: "transparent",
           border: "none",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          outline: "none",
+          textAlign: "left",
           color: isFirst ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.5)",
-          fontSize: 14,
+          fontSize: "clamp(13px, 1.3vw, 15px)",
           fontFamily: "'Space Mono', monospace",
           cursor: isFirst ? "default" : "pointer",
           transition: "all 0.2s ease",
@@ -37,16 +40,13 @@ export default function Navigation({ current, total, onBack, onNext }) {
         onClick={onNext}
         disabled={isLast}
         style={{
-          flex: 1,
-          padding: "20px",
-          background: isLast
-            ? "rgba(255,255,255,0.02)"
-            : "rgba(162, 155, 254, 0.1)",
+          padding: "14px clamp(24px, 4vw, 48px)",
+          background: "transparent",
           border: "none",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          borderLeft: "1px solid rgba(255,255,255,0.06)",
+          outline: "none",
+          textAlign: "right",
           color: isLast ? "rgba(255,255,255,0.15)" : "#a29bfe",
-          fontSize: 14,
+          fontSize: "clamp(13px, 1.3vw, 15px)",
           fontFamily: "'Space Mono', monospace",
           cursor: isLast ? "default" : "pointer",
           transition: "all 0.2s ease",

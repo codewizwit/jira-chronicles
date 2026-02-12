@@ -7,16 +7,16 @@ export default function NowBadge() {
         gap: 6,
         background: "linear-gradient(135deg, #ff4757, #ff6b6b)",
         color: "#fff",
-        padding: "4px 14px",
+        padding: "clamp(4px, 0.5vw, 6px) clamp(14px, 1.5vw, 18px)",
         borderRadius: 20,
-        fontSize: 13,
+        fontSize: "clamp(13px, 1.3vw, 15px)",
         fontWeight: 700,
         letterSpacing: 1.5,
         textTransform: "uppercase",
         fontFamily: "'Space Mono', monospace",
       }}
     >
-      <span style={{ fontSize: 10 }}>🔥</span> JIRA TIMELINE
+      <span style={{ fontSize: "clamp(10px, 1.1vw, 13px)" }}>🔥</span> JIRA TIMELINE
     </span>
   );
 }

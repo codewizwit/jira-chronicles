@@ -79,7 +79,7 @@ export default function JiraChronicles() {
           maxWidth: 1060,
           width: "100%",
           margin: "0 auto",
-          padding: "72px clamp(24px, 4vw, 48px) 56px",
+          padding: "clamp(32px, 6vw, 72px) clamp(24px, 4vw, 48px) 56px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",

@@ -1,8 +1,16 @@
-# The Jira Chronicles ⚔️
+# The Jira Chronicles ⏳
 
-A tale of two timelines. An interactive click-through comic exploring what project management could look like if we reimagined it with AI.
+A tale of two timelines. An interactive click-through story exploring what project management could look like if we reimagined it with AI.
+
+**Live:** [codewizwit.github.io/jira-chronicles](https://codewizwit.github.io/jira-chronicles/)
 
 > **Disclaimer:** This is a creative thought exercise and conversation piece, not a real product or product proposal. It's meant to spark discussion about how AI might change the way teams work together.
+
+## The Story
+
+Two timelines. One where we're stuck in ticket theater — standups that could've been meetings, estimation poker nobody believes in, invisible work that never gets credit. And one where AI actually sees the work happening.
+
+Built with React + Vite. AI helped bring the brainstorm to life — that's the point.
 
 ## Setup
 
@@ -25,15 +33,6 @@ npm run format
 
 ## Deploy to GitHub Pages
 
-1. Create a repo called `jira-chronicles` on GitHub
-2. Update `base` in `vite.config.js` if your repo name is different:
-   ```js
-   base: '/your-repo-name/',
-   ```
-3. Push your code to the repo
-4. Deploy:
-   ```bash
-   npm run deploy
-   ```
-5. In your repo settings, make sure GitHub Pages source is set to the `gh-pages` branch
-6. Your site will be live at `https://yourusername.github.io/jira-chronicles/`
+```bash
+npm run deploy
+```

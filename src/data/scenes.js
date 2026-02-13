@@ -4,7 +4,7 @@ const cast = {
   dev2Now: "Dev 2 🫠",
   dev2Future: "Dev 2 😌",
   dev3Now: "Dev 3 😶",
-  dev3Future: "Dev 3 😊",
+  dev3Future: "Dev 3 🥲",
   manager: "Manager 🧐",
   jira: "JIRA ⚙️",
   ai: "AI ✨",
@@ -354,8 +354,7 @@ export const scenes = [
     id: "meta",
     type: "meta",
     title: "This Didn't Start With a Ticket.",
-    subtitle:
-      "It started as a conversation amongst people who live this every day — and became a story exploring what the future of work could look like.",
+    subtitle: "What if work always started like this?",
     steps: [
       {
         emoji: "😩",
@@ -370,7 +369,7 @@ export const scenes = [
       {
         emoji: "🤔",
         label: "Push back and refine",
-        text: '"What about metrics?" "Teams still need structure." "Where\'s the accountability?" Every challenge makes the idea sharper, not weaker.',
+        text: '"What about metrics?" "Teams still need structure." "Where\'s the accountability?" Every challenge makes the idea sharper.',
       },
       {
         emoji: "🔧",
@@ -412,13 +411,13 @@ export const scenes = [
           },
           {
             from: "Status theater",
-            to: "Organizational awareness",
+            to: "Real visibility",
             fromColor: "#ff6b6b",
             toColor: "#a29bfe",
           },
           {
             from: "Burn-down charts",
-            to: "Confidence signals",
+            to: "Honest forecasts",
             fromColor: "#ff6b6b",
             toColor: "#a29bfe",
           },
@@ -432,12 +431,26 @@ export const scenes = [
       },
       {
         type: "punchline",
-        text: "It starts the way this started. With a pain point, a question, and the willingness to reimagine the answer together. 🥹",
+        text: "This is about giving people back the space to do what they're actually good at.",
       },
       {
         type: "cta",
-        text: "Ok so... let's talk about how we get rid of Jira forever. 😎",
+        text: "So how do we delete Jira? 😎",
       },
+    ],
+  },
+  {
+    id: "credits",
+    type: "credits",
+    title: "Meet the Cast",
+    characters: [
+      { emoji: "😅", name: "Scrum Master", description: "Just following the process. Somebody has to, right?", color: "#ff6b6b" },
+      { emoji: "🤓", name: "Dev 1", description: "Eager, still learning, still trying to prove themselves. Not burned out yet.", color: "#4ecdc4" },
+      { emoji: "🫠", name: "Dev 2 (Jira)", description: "Drowning in process overhead.", color: "#45b7d1", arcEmoji: "😌", arcName: "Dev 2 (AI Future)", arcDescription: "Finds contentment when the process finally stops fighting the work." },
+      { emoji: "😶", name: "Dev 3 (Jira)", description: "The quiet hero. Does the invisible work no ticket ever captures.", color: "#96ceb4", arcEmoji: "🥲", arcName: "Dev 3 (AI Future)", arcDescription: "Finally seen." },
+      { emoji: "🧐", name: "Manager", description: "Lives in dashboards. Slowly learning to see people instead of metrics.", color: "#ff6b6b" },
+      { emoji: "⚙️", name: "JIRA", description: "No soul. Just columns and swimlanes.", color: "#ddd" },
+      { emoji: "✨", name: "AI", description: "The new teammate. Sees everything, judges nothing.", color: "#a29bfe" },
     ],
   },
 ];

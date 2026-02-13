@@ -3,6 +3,7 @@ import { scenes } from "./data/scenes";
 import TitleScene from "./components/TitleScene";
 import VsScene from "./components/VsScene";
 import MetaScene from "./components/MetaScene";
+import CreditsScene from "./components/CreditsScene";
 import FinaleScene from "./components/FinaleScene";
 import Navigation from "./components/Navigation";
 import ProgressBar from "./components/ProgressBar";
@@ -104,6 +105,10 @@ export default function JiraChronicles() {
 
         {scene.type === "meta" && (
           <MetaScene key={scene.id} scene={scene} isVisible={panelVisible} />
+        )}
+
+        {scene.type === "credits" && (
+          <CreditsScene key={scene.id} scene={scene} isVisible={panelVisible} />
         )}
 
         {scene.type === "finale" && (

@@ -58,61 +58,73 @@ export default function MetaScene({ scene, isVisible }) {
         {scene.subtitle}
       </p>
 
-      {scene.steps.map((step, i) => (
-        <div
-          key={i}
-          style={{
-            display: "flex",
-            gap: "clamp(12px, 1.4vw, 18px)",
-            alignItems: "flex-start",
-            marginBottom: "clamp(14px, 1.8vw, 22px)",
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? "translateX(0)" : "translateX(-20px)",
-            transition: `all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${i * 0.18}s`,
-          }}
-        >
+      <div
+        style={{
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(255,255,255,0.06)",
+          borderRadius: 16,
+          padding: "clamp(20px, 2.5vw, 32px) clamp(24px, 3vw, 36px)",
+        }}
+      >
+        {scene.steps.map((step, i) => (
           <div
+            key={i}
             style={{
-              fontSize: "clamp(24px, 2.5vw, 30px)",
-              minWidth: "clamp(38px, 4vw, 48px)",
-              height: "clamp(38px, 4vw, 48px)",
               display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: "rgba(255,255,255,0.04)",
-              borderRadius: 10,
-              flexShrink: 0,
+              gap: "clamp(12px, 1.4vw, 18px)",
+              alignItems: "flex-start",
+              marginBottom:
+                i < scene.steps.length - 1
+                  ? "clamp(14px, 1.8vw, 22px)"
+                  : 0,
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? "translateX(0)" : "translateX(-20px)",
+              transition: `all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${i * 0.18}s`,
             }}
           >
-            {step.emoji}
-          </div>
-          <div>
             <div
               style={{
-                fontSize: "clamp(11px, 1.1vw, 13px)",
-                fontWeight: 700,
-                fontFamily: "'Space Mono', monospace",
-                textTransform: "uppercase",
-                letterSpacing: 1.2,
-                color: "#ffd93d",
-                marginBottom: 2,
+                fontSize: "clamp(24px, 2.5vw, 30px)",
+                minWidth: "clamp(38px, 4vw, 48px)",
+                height: "clamp(38px, 4vw, 48px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "rgba(255,255,255,0.04)",
+                borderRadius: 10,
+                flexShrink: 0,
               }}
             >
-              {step.label}
+              {step.emoji}
             </div>
-            <div
-              style={{
-                fontSize: "clamp(14px, 1.4vw, 17px)",
-                lineHeight: 1.5,
-                color: "rgba(255,255,255,0.6)",
-                fontFamily: "'IBM Plex Sans', sans-serif",
-              }}
-            >
-              {step.text}
+            <div>
+              <div
+                style={{
+                  fontSize: "clamp(11px, 1.1vw, 13px)",
+                  fontWeight: 700,
+                  fontFamily: "'Space Mono', monospace",
+                  textTransform: "uppercase",
+                  letterSpacing: 1.2,
+                  color: "#ffd93d",
+                  marginBottom: 2,
+                }}
+              >
+                {step.label}
+              </div>
+              <div
+                style={{
+                  fontSize: "clamp(14px, 1.4vw, 17px)",
+                  lineHeight: 1.5,
+                  color: "rgba(255,255,255,0.6)",
+                  fontFamily: "'IBM Plex Sans', sans-serif",
+                }}
+              >
+                {step.text}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
       {scene.closing && (
         <p

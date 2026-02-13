@@ -8,7 +8,7 @@ A tale of two timelines. An interactive click-through story exploring what proje
 
 ## The Story
 
-Two timelines. One where we're stuck in ticket theater — standups that could've been meetings, estimation poker nobody believes in, invisible work that never gets credit. And one where AI actually sees the work happening.
+Two timelines. One where we're stuck in ticket theater — standups that could've been emails, estimation poker nobody believes in, invisible work that never gets credit. And one where AI actually sees the work happening.
 
 Built with React + Vite. AI helped bring the brainstorm to life — that's the point.
 

@@ -83,7 +83,7 @@ export default function JiraChronicles() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
-          overflow: "hidden",
+          overflowY: "auto",
           boxSizing: "border-box",
         }}
       >

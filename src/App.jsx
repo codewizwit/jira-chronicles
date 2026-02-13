@@ -45,12 +45,11 @@ export default function JiraChronicles() {
   return (
     <div
       style={{
-        height: "100vh",
+        minHeight: "100dvh",
         background: "#0a0a0f",
         color: "#fff",
         fontFamily: "'IBM Plex Sans', sans-serif",
         position: "relative",
-        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
       }}
@@ -83,7 +82,6 @@ export default function JiraChronicles() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
-          overflowY: "auto",
           boxSizing: "border-box",
         }}
       >

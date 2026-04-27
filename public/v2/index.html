@@ -1,0 +1,2724 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>The Jira Chronicles · A Wizwit Short</title>
+    <meta
+      name="description"
+      content="A tale of two timelines. What if work always started like this?"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --color-cream: #f5f3ee;
+        --color-cream-warm: #f9f5ed;
+        --color-ink: #1a1a1a;
+        --color-ink-soft: #4a4a4a;
+        --color-gray: #6b6b6b;
+        --color-gray-light: #a3a3a3;
+        --color-gray-border: #d4d2cd;
+        --color-gold: #c8973e;
+        --color-gold-dark: #9a7230;
+
+        --color-now: #5a6470;
+        --color-now-tint: rgba(90, 100, 112, 0.06);
+        --color-future: #c47a4d;
+        --color-future-tint: rgba(196, 122, 77, 0.06);
+
+        --color-skin-warm: #f4c9a3;
+        --color-skin-mid: #e8b89a;
+        --color-skin-deep: #d9a584;
+        --color-skin-medium: #c89876;
+
+        --color-d1: #2d5f4e;
+        --color-d2-now: #5b7a99;
+        --color-d2-future: #3d5a78;
+        --color-d3-now: #8a9d7d;
+        --color-d3-future: #6b8e5a;
+        --color-ai: #c47a4d;
+        --color-ai-warm: #f5e6d3;
+        --color-jira-screen: #e8e0d0;
+
+        --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+        --font-body:
+          "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        --font-mono:
+          "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+        --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+        --ease-morph: cubic-bezier(0.65, 0, 0.35, 1);
+        --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+        --ease-settle: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-mech: steps(8, end);
+        --ease-breath: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        --ease-flicker: cubic-bezier(0.9, 0, 0.1, 1);
+
+        --dur-flicker: 180ms;
+        --dur-cue: 420ms;
+        --dur-pop: 520ms;
+        --dur-settle: 800ms;
+        --dur-arc: 1200ms;
+        --dur-breath: 4200ms;
+
+        --beat-pad-y: clamp(3rem, 10vh, 8rem);
+        --measure: 34rem;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--color-cream);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+        font-size: clamp(15px, 0.6vw + 13px, 17px);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        overflow-x: hidden;
+      }
+
+      /* ============================================================
+         BEATS
+         ============================================================ */
+      .beat {
+        position: relative;
+        min-height: 100vh;
+        padding: var(--beat-pad-y) clamp(1.25rem, 5vw, 3rem);
+        display: flex;
+        align-items: center;
+        transition: background 600ms var(--ease-out);
+      }
+      .beat--now {
+        background: var(--color-now-tint);
+      }
+      .beat--future {
+        background: var(--color-future-tint);
+      }
+      .beat__inner {
+        width: 100%;
+        max-width: 72rem;
+        margin: 0 auto;
+      }
+
+      /* Tall scroll-pinned dialogue beats */
+      .beat--dialogue {
+        min-height: 240vh;
+        align-items: flex-start;
+        padding: 0;
+      }
+      .beat--dialogue .beat__inner {
+        position: sticky;
+        top: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--beat-pad-y) clamp(1.25rem, 5vw, 3rem);
+      }
+
+      /* Reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 800ms var(--ease-out),
+          transform 800ms var(--ease-out);
+      }
+      .beat--future .reveal {
+        transition:
+          opacity 800ms var(--ease-settle),
+          transform 800ms var(--ease-settle);
+      }
+      .beat.is-in .reveal {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .beat.is-in .reveal--d1 {
+        transition-delay: 120ms;
+      }
+      .beat.is-in .reveal--d2 {
+        transition-delay: 260ms;
+      }
+      .beat.is-in .reveal--d3 {
+        transition-delay: 400ms;
+      }
+      .beat.is-in .reveal--d4 {
+        transition-delay: 540ms;
+      }
+      .beat.is-in .reveal--d5 {
+        transition-delay: 680ms;
+      }
+      .beat.is-in .reveal--d6 {
+        transition-delay: 820ms;
+      }
+      .beat.is-in .reveal--d7 {
+        transition-delay: 1120ms;
+      }
+      .beat.is-in .reveal--d8 {
+        transition-delay: 1300ms;
+      }
+
+      /* ============================================================
+         TITLE BEAT
+         ============================================================ */
+      .hero {
+        text-align: center;
+        max-width: 50rem;
+        margin: 0 auto;
+        position: relative;
+      }
+      .hero__eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--color-future);
+        margin-bottom: 1.6rem;
+      }
+      .hero__title {
+        font-family: var(--font-display);
+        font-variation-settings: "opsz" 144;
+        font-size: clamp(2.6rem, 7vw, 5.2rem);
+        font-weight: 900;
+        line-height: 0.98;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.4rem;
+        color: var(--color-ink);
+      }
+      .hero__rule {
+        width: 5rem;
+        height: 2px;
+        background: var(--color-gold);
+        margin: 0 auto 1rem;
+        border-radius: 2px;
+      }
+      .hero__sub {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+        color: var(--color-ink-soft);
+        margin: 0 0 3rem;
+      }
+      .hero__hint {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        letter-spacing: 0.1em;
+        color: var(--color-gray);
+      }
+      .hero__masks {
+        display: flex;
+        justify-content: center;
+        gap: clamp(2rem, 8vw, 6rem);
+        margin: 2.4rem 0 2rem;
+        align-items: center;
+      }
+      .hero__masks svg {
+        width: clamp(60px, 9vw, 110px);
+        height: auto;
+      }
+
+      /* ============================================================
+         SCENE STAGE
+         ============================================================ */
+      .scene-block {
+        max-width: 68rem;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .scene-block__header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.6rem;
+      }
+      .kicker {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .kicker--now {
+        color: var(--color-now);
+      }
+      .kicker--future {
+        color: var(--color-future);
+      }
+      .scene-block__title {
+        font-family: var(--font-display);
+        font-variation-settings: "opsz" 60;
+        font-size: clamp(1.9rem, 4vw, 3rem);
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: -0.015em;
+        margin: 0;
+        max-width: 32rem;
+      }
+      .scene-block__title--now {
+        color: var(--color-now);
+      }
+      .scene-block__title--future {
+        color: var(--color-future);
+      }
+
+      .stage {
+        position: relative;
+        width: 100%;
+        background: var(--color-cream-warm);
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        border-radius: 18px;
+        padding: 0;
+        overflow: hidden;
+        height: clamp(440px, 64vh, 600px);
+      }
+      .stage--now {
+        background: linear-gradient(180deg, #f3f1ec 0%, #ecebe5 100%);
+      }
+      .stage--future {
+        background: linear-gradient(180deg, #f7f1e9 0%, #f1e8db 100%);
+      }
+      .stage__floor {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 30%;
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          rgba(26, 26, 26, 0.04) 100%
+        );
+        pointer-events: none;
+      }
+      .stage__props {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      /* Cast row pinned to bottom of stage — grid layout so character positions
+         match bubble anchors at known percentages */
+      .cast-row {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(var(--cast-cols, 4), 1fr);
+        align-items: end;
+        height: 60%;
+        padding: 0 clamp(0.5rem, 2vw, 1.4rem);
+        z-index: 2;
+      }
+      .cast-slot {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        height: 100%;
+        min-width: 0;
+      }
+      .cast-slot svg {
+        height: 100%;
+        width: auto;
+        max-width: 100%;
+      }
+
+      /* Bubble float layer over the stage */
+      .stage__bubbles {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        pointer-events: none;
+      }
+
+      /* Per-beat dialogue progress dots */
+      .bubble-progress {
+        position: absolute;
+        bottom: 0.9rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.45rem;
+        z-index: 6;
+      }
+      .bubble-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: rgba(26, 26, 26, 0.16);
+        transition:
+          background 240ms var(--ease-out),
+          transform 240ms var(--ease-out);
+      }
+      .bubble-dot.is-past {
+        background: rgba(26, 26, 26, 0.38);
+      }
+      .beat--now .bubble-dot.is-active {
+        background: var(--color-now);
+        transform: scale(1.5);
+      }
+      .beat--future .bubble-dot.is-active {
+        background: var(--color-future);
+        transform: scale(1.5);
+      }
+
+      /* Scroll hint inside dialogue stages */
+      .scroll-hint {
+        position: absolute;
+        bottom: 0.95rem;
+        right: 1.2rem;
+        z-index: 6;
+        font-family: var(--font-mono);
+        font-size: 0.66rem;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--color-gray);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        opacity: 0.85;
+        pointer-events: none;
+      }
+      .scroll-hint__arrow {
+        animation: scroll-hint-bob 1.8s ease-in-out infinite;
+      }
+      @keyframes scroll-hint-bob {
+        0%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.6;
+        }
+        50% {
+          transform: translateY(3px);
+          opacity: 1;
+        }
+      }
+      .beat--dialogue.is-progressed .scroll-hint {
+        opacity: 0;
+        transition: opacity 320ms var(--ease-out);
+      }
+
+      /* Floor shadows */
+      .figure-shadow {
+        position: absolute;
+        bottom: 4px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70%;
+        height: 8px;
+        background: rgba(26, 26, 26, 0.16);
+        border-radius: 50%;
+        filter: blur(3px);
+        z-index: 0;
+      }
+      .figure-shadow--leak {
+        width: 100%;
+        height: 14px;
+        background: rgba(91, 122, 153, 0.32);
+      }
+
+      /* ============================================================
+         SPEECH BUBBLES (anchored over speakers)
+         ============================================================ */
+      .jc-bubble {
+        position: absolute;
+        left: var(--anchor-x, 50%);
+        bottom: var(--anchor-y, 56%);
+        transform: translateX(-50%) translateY(0) scale(0.6);
+        transform-origin: var(--tail-x, 50%) 100%;
+        background: var(--color-cream);
+        border: none;
+        border-radius: 16px;
+        padding: 0.85rem 1.05rem 0.95rem;
+        width: clamp(200px, 30vw, 320px);
+        max-width: calc(100% - 2rem);
+        font-family: var(--font-body);
+        font-size: clamp(0.9rem, 1vw, 1rem);
+        line-height: 1.45;
+        color: var(--color-ink);
+        opacity: 0;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        pointer-events: auto;
+        box-shadow:
+          0 1px 0 rgba(26, 26, 26, 0.04),
+          0 6px 16px -6px rgba(26, 26, 26, 0.16),
+          0 14px 32px -10px rgba(26, 26, 26, 0.1);
+        transition:
+          opacity var(--dur-pop) var(--ease-pop),
+          transform var(--dur-pop) var(--ease-pop);
+      }
+      .jc-bubble.is-in {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+      .jc-bubble.is-out {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-4px) scale(0.96);
+        transition:
+          opacity 240ms var(--ease-out),
+          transform 240ms var(--ease-out);
+      }
+      .jc-bubble__speaker {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--color-ink-soft);
+        margin-bottom: 0.25rem;
+      }
+      .jc-bubble__tail {
+        position: absolute;
+        bottom: -10px;
+        left: var(--tail-x, 50%);
+        width: 18px;
+        height: 12px;
+        transform: translateX(-50%);
+        overflow: visible;
+        filter: drop-shadow(0 4px 6px rgba(26, 26, 26, 0.08));
+      }
+      .jc-bubble__tail svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Whisper variant (asides) */
+      .jc-bubble--whisper {
+        border-style: dashed;
+        border-radius: 22px;
+        border-color: rgba(26, 26, 26, 0.45);
+        background: rgba(245, 243, 238, 0.9);
+        font-style: italic;
+      }
+      .jc-bubble--whisper .jc-bubble__tail {
+        display: none;
+      }
+      .jc-bubble--whisper::before {
+        content: "··";
+        position: absolute;
+        bottom: -14px;
+        left: 30%;
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        letter-spacing: 0.3em;
+        color: rgba(26, 26, 26, 0.5);
+      }
+
+      /* Mech variant (JIRA) */
+      .jc-bubble--mech {
+        border-radius: 4px;
+        border-width: 2.2px;
+        background: var(--color-jira-screen);
+        font-family: var(--font-mono);
+        font-size: 0.92rem;
+        transition:
+          opacity 120ms var(--ease-mech),
+          transform 120ms var(--ease-mech);
+      }
+
+      /* AI variant */
+      .jc-bubble--ai {
+        background: var(--color-cream-warm);
+        box-shadow:
+          0 0 0 1px rgba(196, 122, 77, 0.18),
+          0 6px 20px -6px rgba(196, 122, 77, 0.32),
+          0 14px 36px -10px rgba(196, 122, 77, 0.18);
+      }
+      .jc-bubble--ai .jc-bubble__speaker {
+        color: var(--color-future);
+      }
+
+      /* ============================================================
+         FOOTNOTE
+         ============================================================ */
+      .footnote {
+        margin-top: 1.6rem;
+        padding: 0.95rem 1.2rem;
+        background: rgba(26, 26, 26, 0.04);
+        border-left: 3px solid;
+        border-radius: 6px;
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 500;
+        font-size: 1rem;
+        color: var(--color-ink-soft);
+      }
+      .footnote--now {
+        border-left-color: var(--color-now);
+      }
+      .footnote--future {
+        border-left-color: var(--color-future);
+      }
+
+      /* ============================================================
+         TIMELINE INDICATOR + RAIL
+         ============================================================ */
+      .timeline-indicator {
+        position: fixed;
+        top: 1.4rem;
+        left: 1.4rem;
+        z-index: 50;
+        font-family: var(--font-mono);
+        font-size: 0.74rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        padding: 0.4rem 0.8rem;
+        background: var(--color-cream);
+        border: 1px solid rgba(26, 26, 26, 0.12);
+        border-radius: 999px;
+        color: var(--color-gray);
+        opacity: 0;
+        transition:
+          opacity 400ms var(--ease-out),
+          color 400ms var(--ease-out),
+          border-color 400ms var(--ease-out);
+        pointer-events: none;
+      }
+      .timeline-indicator.is-visible {
+        opacity: 1;
+      }
+      .timeline-indicator[data-era="now"] {
+        color: var(--color-now);
+        border-color: var(--color-now);
+      }
+      .timeline-indicator[data-era="future"] {
+        color: var(--color-future);
+        border-color: var(--color-future);
+      }
+
+      .rail {
+        position: fixed;
+        right: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 40;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .rail__dot {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 50%;
+        background: rgba(26, 26, 26, 0.18);
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition:
+          background 200ms ease,
+          transform 200ms ease;
+      }
+      .rail__dot:hover {
+        transform: scale(1.4);
+      }
+      .rail__dot.is-active {
+        background: var(--color-ink);
+      }
+      .rail__dot.is-past {
+        background: rgba(26, 26, 26, 0.4);
+      }
+      .rail__dot[data-era="now"].is-active {
+        background: var(--color-now);
+      }
+      .rail__dot[data-era="future"].is-active {
+        background: var(--color-future);
+      }
+
+      /* Pair bridge */
+      .pair-bridge {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 5;
+        background: linear-gradient(
+          135deg,
+          transparent 40%,
+          rgba(255, 90, 54, 0.18) 50%,
+          rgba(196, 122, 77, 0.22) 60%,
+          transparent 70%
+        );
+        opacity: 0;
+        transform: translateX(-30%);
+      }
+      .pair-bridge.is-sweeping {
+        animation: jc-pair-sweep 700ms var(--ease-morph) forwards;
+      }
+      @keyframes jc-pair-sweep {
+        0% {
+          opacity: 0;
+          transform: translateX(-30%);
+        }
+        40% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(30%);
+        }
+      }
+
+      /* ============================================================
+         CHARACTER MOTION
+         ============================================================ */
+
+      /* Scrum Master */
+      .jc-sm-body {
+        transform-origin: 50% 92%;
+        animation: jc-sm-bob 1.8s var(--ease-breath) infinite;
+      }
+      .jc-sm-head {
+        transform-origin: 50% 80%;
+        animation: jc-sm-nod 2.4s var(--ease-breath) infinite;
+      }
+      @keyframes jc-sm-bob {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-3px) rotate(0.6deg);
+        }
+      }
+      @keyframes jc-sm-nod {
+        0%,
+        100% {
+          transform: rotate(-1deg);
+        }
+        50% {
+          transform: rotate(2deg);
+        }
+      }
+
+      /* Dev 1 */
+      .jc-d1-body {
+        transform-origin: 50% 95%;
+        animation: jc-d1-sway 3.6s var(--ease-breath) infinite;
+      }
+      @keyframes jc-d1-sway {
+        0%,
+        100% {
+          transform: translateX(0) rotate(0);
+        }
+        50% {
+          transform: translateX(1px) rotate(0.4deg);
+        }
+      }
+      .jc-eye-blink {
+        animation: jc-blink 5.4s steps(1) infinite;
+      }
+      @keyframes jc-blink {
+        0%,
+        96%,
+        100% {
+          transform: scaleY(1);
+        }
+        97%,
+        99% {
+          transform: scaleY(0.1);
+        }
+      }
+      .sparkle {
+        animation: sparkle-twinkle 2.4s ease-in-out infinite;
+      }
+      @keyframes sparkle-twinkle {
+        0%,
+        100% {
+          transform: scale(0.6) rotate(0);
+          opacity: 0.6;
+        }
+        50% {
+          transform: scale(1.1) rotate(180deg);
+          opacity: 1;
+        }
+      }
+
+      /* Dev 2 */
+      .jc-d2 .jc-d2-body {
+        transform-origin: 50% 100%;
+        transition: transform var(--dur-arc) var(--ease-settle);
+      }
+      .jc-d2 .jc-d2-head {
+        transform-origin: 50% 100%;
+        transition: transform var(--dur-arc) var(--ease-settle);
+      }
+      .jc-d2[data-slump="0"] .jc-d2-body {
+        transform: translateY(0) rotate(0);
+      }
+      .jc-d2[data-slump="1"] .jc-d2-body {
+        transform: translateY(2px) rotate(-1.5deg);
+      }
+      .jc-d2[data-slump="2"] .jc-d2-body {
+        transform: translateY(5px) rotate(-3deg);
+      }
+      .jc-d2[data-slump="3"] .jc-d2-body {
+        transform: translateY(8px) rotate(-4.5deg);
+      }
+      .jc-d2[data-slump="3"] .jc-d2-head {
+        transform: rotate(3deg);
+      }
+      .jc-d2--future .jc-d2-body {
+        animation: jc-d2-breath var(--dur-breath) var(--ease-breath) infinite;
+        transform-origin: 50% 100%;
+      }
+      @keyframes jc-d2-breath {
+        0%,
+        100% {
+          transform: scaleY(1) translateY(0);
+        }
+        50% {
+          transform: scaleY(1.012) translateY(-1px);
+        }
+      }
+
+      /* Dev 3 */
+      .jc-d3 {
+        opacity: 0.78;
+        transition:
+          opacity 1200ms var(--ease-settle),
+          transform 1200ms var(--ease-settle);
+      }
+      .jc-d3--future {
+        opacity: 1;
+      }
+      .jc-d3 .jc-d3-eye {
+        animation: jc-blink 7.8s steps(1) infinite;
+      }
+      .jc-d3-halo {
+        opacity: 0;
+        transition: opacity 1000ms var(--ease-settle) 200ms;
+      }
+      .jc-d3--future .jc-d3-halo {
+        opacity: 1;
+      }
+      .jc-d3--future .jc-d3-body {
+        animation: jc-d2-breath 4.6s var(--ease-breath) infinite;
+        transform-origin: 50% 100%;
+      }
+
+      /* AI · Claude-code-terminal sparkle */
+      .jc-ai-glow {
+        transform-origin: center;
+        animation: jc-ai-glow 3.4s var(--ease-breath) infinite;
+      }
+      .jc-ai-spark-main {
+        transform-origin: 100px 100px;
+        animation:
+          jc-claude-spark-spin 3.6s linear infinite,
+          jc-claude-spark-pulse 2.4s var(--ease-breath) infinite;
+      }
+      .jc-ai-spark-counter {
+        transform-origin: 100px 100px;
+        animation:
+          jc-claude-spark-counter 4.6s linear infinite,
+          jc-claude-spark-pulse 2.4s var(--ease-breath) infinite;
+        animation-delay:
+          -0.6s,
+          -0.6s;
+      }
+      @keyframes jc-claude-spark-spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes jc-claude-spark-counter {
+        from {
+          transform: rotate(360deg);
+        }
+        to {
+          transform: rotate(0deg);
+        }
+      }
+      @keyframes jc-claude-spark-pulse {
+        0%,
+        100% {
+          opacity: 0.78;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      @keyframes jc-ai-glow {
+        0%,
+        100% {
+          opacity: 0.45;
+          transform: scale(0.96);
+        }
+        50% {
+          opacity: 0.85;
+          transform: scale(1.08);
+        }
+      }
+      .jc-ai.is-speaking .jc-ai-glow,
+      .jc-ai.is-speaking .jc-ai-spark-main {
+        animation-duration: 1.6s, 1.4s;
+      }
+
+      /* Speaking cue */
+      .is-speaking-cue {
+        animation: jc-speak-cue var(--dur-cue) var(--ease-out);
+      }
+      @keyframes jc-speak-cue {
+        0%,
+        100% {
+          transform: rotate(0) translateY(0);
+        }
+        30% {
+          transform: rotate(2deg) translateY(-2px);
+        }
+      }
+
+      /* Ambient props */
+      .jc-clipboard {
+        transform-origin: 50% 0%;
+        animation: jc-clipboard-wobble 2.8s var(--ease-flicker) infinite;
+      }
+      @keyframes jc-clipboard-wobble {
+        0%,
+        100% {
+          transform: rotate(-1deg);
+        }
+        47% {
+          transform: rotate(-1.2deg);
+        }
+        50% {
+          transform: rotate(2.4deg);
+        }
+        53% {
+          transform: rotate(-0.8deg);
+        }
+      }
+      .jc-clock {
+        transform-origin: center;
+        animation: jc-clock-tick 60s steps(60) infinite;
+      }
+      @keyframes jc-clock-tick {
+        from {
+          transform: rotate(0);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .jc-steam {
+        transform-origin: center bottom;
+        animation: jc-steam-rise 3.2s linear infinite;
+      }
+      .jc-steam--b {
+        animation-delay: 1s;
+      }
+      .jc-steam--c {
+        animation-delay: 2s;
+      }
+      @keyframes jc-steam-rise {
+        0% {
+          transform: translateY(0) scale(0.6);
+          opacity: 0;
+        }
+        25% {
+          opacity: 0.55;
+        }
+        100% {
+          transform: translateY(-26px) scale(1.1);
+          opacity: 0;
+        }
+      }
+      .jc-particle {
+        transform-origin: center;
+        animation: jc-particle-drift 9s linear infinite;
+      }
+      .jc-particle--b {
+        animation-delay: -3s;
+      }
+      .jc-particle--c {
+        animation-delay: -6s;
+      }
+      @keyframes jc-particle-drift {
+        0% {
+          transform: translate(0, 0) scale(0.6);
+          opacity: 0;
+        }
+        15% {
+          opacity: 0.55;
+        }
+        85% {
+          opacity: 0.55;
+        }
+        100% {
+          transform: translate(18px, -60px) scale(1);
+          opacity: 0;
+        }
+      }
+
+      /* Hero masks (mini Jira/AI) */
+      .hero-mini-jira {
+        animation: jc-hero-wobble 8s var(--ease-breath) infinite;
+        transform-origin: center;
+      }
+      @keyframes jc-hero-wobble {
+        0%,
+        100% {
+          transform: rotate(-3deg);
+        }
+        50% {
+          transform: rotate(3deg);
+        }
+      }
+      .hero-mini-ai {
+        animation: jc-ai-pulse 3.8s var(--ease-breath) infinite;
+        transform-origin: center;
+      }
+
+      /* Reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .jc-sm-body,
+        .jc-sm-head,
+        .jc-d1-body,
+        .jc-eye-blink,
+        .sparkle,
+        .jc-d2--future .jc-d2-body,
+        .jc-d3 .jc-d3-eye,
+        .jc-d3--future .jc-d3-body,
+        .jc-ai-glow,
+        .jc-ai-spark-main,
+        .jc-ai-spark-counter,
+        .jc-clipboard,
+        .jc-clock,
+        .jc-steam,
+        .jc-particle,
+        .hero-mini-jira,
+        .hero-mini-ai {
+          animation: none !important;
+        }
+        .reveal {
+          transition: opacity 200ms linear !important;
+          transform: none !important;
+        }
+        .beat.is-in .reveal {
+          opacity: 1;
+          transform: none;
+        }
+        .jc-bubble,
+        .jc-bubble.is-in {
+          transition: opacity 200ms linear !important;
+          transform: none !important;
+        }
+        .pair-bridge.is-sweeping {
+          animation: none !important;
+          opacity: 0 !important;
+        }
+        .jc-d2 .jc-d2-body,
+        .jc-d2 .jc-d2-head {
+          transition: none !important;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .rail {
+          display: none;
+        }
+        .timeline-indicator {
+          top: 0.8rem;
+          left: 0.8rem;
+          font-size: 0.68rem;
+        }
+        .cast-row {
+          height: clamp(180px, 50vw, 240px);
+          gap: 0.4rem;
+        }
+        .jc-bubble {
+          max-width: 92%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="timeline-indicator" id="timelineIndicator">
+      <span id="timelineLabel">Now</span>
+    </div>
+
+    <div class="pair-bridge" id="pairBridge"></div>
+
+    <nav class="rail" id="rail" aria-label="Beat navigation"></nav>
+
+    <main>
+      <!-- ================================================
+           BEAT 1 · TITLE
+           ================================================ -->
+      <section class="beat" data-beat="1">
+        <div class="beat__inner">
+          <div class="hero">
+            <div class="hero__eyebrow reveal">A Wizwit Short · No. 3</div>
+            <div class="hero__masks reveal reveal--d1">
+              <!-- Mini JIRA -->
+              <svg
+                viewBox="0 0 100 110"
+                class="hero-mini-jira"
+                aria-hidden="true"
+              >
+                <rect
+                  x="10"
+                  y="14"
+                  width="80"
+                  height="76"
+                  rx="4"
+                  fill="#5a6470"
+                  stroke="#1a1a1a"
+                  stroke-width="2.4"
+                />
+                <rect x="20" y="24" width="60" height="46" fill="#1a1a1a" />
+                <rect x="28" y="36" width="14" height="10" fill="#5a6470" />
+                <rect x="58" y="36" width="14" height="10" fill="#5a6470" />
+                <rect x="28" y="54" width="44" height="6" fill="#7a9572" />
+                <rect
+                  x="36"
+                  y="90"
+                  width="28"
+                  height="14"
+                  fill="#5a6470"
+                  stroke="#1a1a1a"
+                  stroke-width="2"
+                />
+                <circle
+                  cx="50"
+                  cy="10"
+                  r="6"
+                  fill="#5a6470"
+                  stroke="#1a1a1a"
+                  stroke-width="1.6"
+                />
+              </svg>
+              <!-- Mini AI -->
+              <svg
+                viewBox="0 0 100 110"
+                class="hero-mini-ai"
+                aria-hidden="true"
+              >
+                <circle cx="50" cy="55" r="32" fill="#c47a4d" opacity="0.22" />
+                <circle cx="50" cy="55" r="22" fill="#c47a4d" />
+                <circle cx="50" cy="55" r="11" fill="#f5e6d3" />
+                <g class="sparkle" style="transform-origin: 22px 30px">
+                  <path
+                    d="M22,25 L24,30 L29,32 L24,34 L22,39 L20,34 L15,32 L20,30 Z"
+                    fill="#c8973e"
+                  />
+                </g>
+                <g
+                  class="sparkle"
+                  style="transform-origin: 78px 38px; animation-delay: 0.8s"
+                >
+                  <path
+                    d="M78,33 L80,38 L85,40 L80,42 L78,47 L76,42 L71,40 L76,38 Z"
+                    fill="#c8973e"
+                  />
+                </g>
+                <g
+                  class="sparkle"
+                  style="transform-origin: 80px 78px; animation-delay: 1.6s"
+                >
+                  <path
+                    d="M80,73 L82,78 L87,80 L82,82 L80,87 L78,82 L73,80 L78,78 Z"
+                    fill="#c47a4d"
+                  />
+                </g>
+              </svg>
+            </div>
+            <h1 class="hero__title reveal reveal--d2">The Jira Chronicles</h1>
+            <div class="hero__rule reveal reveal--d3"></div>
+            <p class="hero__sub reveal reveal--d3">A tale of two timelines.</p>
+            <div class="hero__hint reveal reveal--d4">scroll to begin ↓</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================
+           BEAT 2 · NOW · DAILY STANDUP
+           ================================================ -->
+      <section
+        class="beat beat--now beat--dialogue"
+        data-beat="2"
+        data-era="now"
+        data-pair="1"
+      >
+        <div class="beat__inner">
+          <div class="scene-block">
+            <div class="scene-block__header">
+              <span class="kicker kicker--now reveal"
+                >1.1 · Now · Jira Timeline</span
+              >
+              <span class="kicker reveal" style="color: var(--color-gray)"
+                >28:00</span
+              >
+            </div>
+            <h2
+              class="scene-block__title scene-block__title--now reveal reveal--d1"
+            >
+              The Daily Standup.
+            </h2>
+
+            <div class="stage stage--now reveal reveal--d2">
+              <div class="stage__props" aria-hidden="true">
+                <!-- Coffee mug top-left, faint clock top-right -->
+                <svg
+                  viewBox="0 0 800 320"
+                  preserveAspectRatio="none"
+                  style="
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                  "
+                >
+                  <!-- Steam from coffee (top left) -->
+                  <g transform="translate(40,40)" opacity="0.6">
+                    <ellipse
+                      cx="0"
+                      cy="0"
+                      rx="6"
+                      ry="3"
+                      fill="#a3a3a3"
+                      class="jc-steam"
+                    />
+                    <ellipse
+                      cx="8"
+                      cy="-6"
+                      rx="5"
+                      ry="2.5"
+                      fill="#a3a3a3"
+                      class="jc-steam jc-steam--b"
+                    />
+                    <ellipse
+                      cx="-4"
+                      cy="-12"
+                      rx="4"
+                      ry="2"
+                      fill="#a3a3a3"
+                      class="jc-steam jc-steam--c"
+                    />
+                  </g>
+                  <!-- Clock top right -->
+                  <g transform="translate(740,50)">
+                    <circle
+                      cx="0"
+                      cy="0"
+                      r="22"
+                      fill="none"
+                      stroke="#5a6470"
+                      stroke-width="2"
+                    />
+                    <line
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="-14"
+                      stroke="#c8973e"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                      class="jc-clock"
+                    />
+                    <line
+                      x1="0"
+                      y1="0"
+                      x2="10"
+                      y2="6"
+                      stroke="#1a1a1a"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                    />
+                    <circle cx="0" cy="0" r="2" fill="#1a1a1a" />
+                  </g>
+                </svg>
+              </div>
+
+              <div class="stage__floor"></div>
+
+              <div class="cast-row">
+                <!-- Dev 2 (slumped) -->
+                <div class="cast-slot">
+                  <svg
+                    viewBox="0 0 120 200"
+                    class="jc-d2"
+                    data-slump="0"
+                    id="standupD2"
+                    aria-label="Dev 2, slumped"
+                  >
+                    <!-- shadow leak -->
+                    <ellipse
+                      cx="60"
+                      cy="194"
+                      rx="44"
+                      ry="6"
+                      fill="rgba(91,122,153,0.36)"
+                    />
+                    <g class="jc-d2-body">
+                      <!-- Hoodie collar crescent -->
+                      <ellipse cx="60" cy="78" rx="36" ry="14" fill="#1a1a1a" />
+                      <!-- Torso -->
+                      <rect
+                        x="30"
+                        y="76"
+                        width="60"
+                        height="84"
+                        rx="14"
+                        fill="#5b7a99"
+                      />
+                      <!-- Arms -->
+                      <rect
+                        x="20"
+                        y="84"
+                        width="14"
+                        height="60"
+                        rx="7"
+                        fill="#5b7a99"
+                      />
+                      <rect
+                        x="86"
+                        y="84"
+                        width="14"
+                        height="60"
+                        rx="7"
+                        fill="#5b7a99"
+                      />
+                      <!-- Hands -->
+                      <circle cx="27" cy="148" r="7" fill="#f4c9a3" />
+                      <circle cx="93" cy="148" r="7" fill="#f4c9a3" />
+                      <!-- Legs -->
+                      <rect
+                        x="36"
+                        y="160"
+                        width="16"
+                        height="34"
+                        fill="#1a1a1a"
+                      />
+                      <rect
+                        x="68"
+                        y="160"
+                        width="16"
+                        height="34"
+                        fill="#1a1a1a"
+                      />
+                      <!-- Shoes -->
+                      <ellipse cx="44" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                      <ellipse cx="76" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                      <!-- Head, nested so it slumps with the body -->
+                      <g class="jc-d2-head">
+                        <!-- Head -->
+                        <circle cx="60" cy="48" r="22" fill="#f4c9a3" />
+                        <!-- Lank hair, full cap (no across-face stroke) -->
+                        <path
+                          d="M38,42 Q44,22 60,22 Q78,22 82,42 Q78,30 60,30 Q44,32 38,42 Z"
+                          fill="#1a1a1a"
+                        />
+                        <!-- Side fringe over right brow -->
+                        <path
+                          d="M70,32 Q76,30 80,40 Q72,38 68,42 Z"
+                          fill="#1a1a1a"
+                        />
+                        <!-- Eyes (half-mast) -->
+                        <circle cx="52" cy="50" r="2" fill="#1a1a1a" />
+                        <circle cx="68" cy="50" r="2" fill="#1a1a1a" />
+                        <line
+                          x1="48"
+                          y1="50"
+                          x2="56"
+                          y2="50"
+                          stroke="#1a1a1a"
+                          stroke-width="1.4"
+                        />
+                        <line
+                          x1="64"
+                          y1="50"
+                          x2="72"
+                          y2="50"
+                          stroke="#1a1a1a"
+                          stroke-width="1.4"
+                        />
+                        <!-- Mouth -->
+                        <path
+                          d="M54,60 Q60,62 68,60"
+                          fill="none"
+                          stroke="#1a1a1a"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+
+                <!-- Dev 1 (eager, glasses) -->
+                <div class="cast-slot">
+                  <svg viewBox="0 0 120 200" aria-label="Dev 1">
+                    <ellipse
+                      cx="60"
+                      cy="194"
+                      rx="32"
+                      ry="4"
+                      fill="rgba(26,26,26,0.16)"
+                    />
+                    <g class="jc-d1-body">
+                      <!-- Torso -->
+                      <rect
+                        x="27"
+                        y="76"
+                        width="66"
+                        height="82"
+                        rx="14"
+                        fill="#2d5f4e"
+                      />
+                      <!-- Pocket -->
+                      <rect
+                        x="68"
+                        y="84"
+                        width="14"
+                        height="14"
+                        fill="#f5f3ee"
+                        stroke="#1a1a1a"
+                        stroke-width="1"
+                      />
+                      <rect
+                        x="73"
+                        y="80"
+                        width="3"
+                        height="10"
+                        fill="#c8973e"
+                      />
+                      <!-- Arms -->
+                      <rect
+                        x="17"
+                        y="84"
+                        width="13"
+                        height="60"
+                        rx="6.5"
+                        fill="#2d5f4e"
+                      />
+                      <rect
+                        x="90"
+                        y="84"
+                        width="13"
+                        height="60"
+                        rx="6.5"
+                        fill="#2d5f4e"
+                      />
+                      <circle cx="23" cy="148" r="7" fill="#f4c9a3" />
+                      <circle cx="97" cy="148" r="7" fill="#f4c9a3" />
+                      <!-- Legs -->
+                      <rect
+                        x="36"
+                        y="158"
+                        width="16"
+                        height="36"
+                        fill="#1a1a1a"
+                      />
+                      <rect
+                        x="68"
+                        y="158"
+                        width="16"
+                        height="36"
+                        fill="#1a1a1a"
+                      />
+                      <ellipse cx="44" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                      <ellipse cx="76" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                      <!-- Head -->
+                      <circle cx="60" cy="48" r="22" fill="#f4c9a3" />
+                      <!-- Hair (round cap with tuft) -->
+                      <path
+                        d="M38,46 Q40,28 60,24 Q80,28 82,46 Q72,38 60,38 Q48,38 38,46 Z"
+                        fill="#1a1a1a"
+                      />
+                      <path
+                        d="M68,22 Q72,14 78,22"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                      />
+                      <!-- Glasses (round) -->
+                      <circle
+                        cx="52"
+                        cy="50"
+                        r="7"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.6"
+                      />
+                      <circle
+                        cx="68"
+                        cy="50"
+                        r="7"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.6"
+                      />
+                      <line
+                        x1="59"
+                        y1="50"
+                        x2="61"
+                        y2="50"
+                        stroke="#1a1a1a"
+                        stroke-width="1.6"
+                      />
+                      <!-- Eyes -->
+                      <g
+                        class="jc-eye-blink"
+                        style="transform-origin: 52px 50px"
+                      >
+                        <circle cx="52" cy="50" r="2" fill="#1a1a1a" />
+                      </g>
+                      <g
+                        class="jc-eye-blink"
+                        style="transform-origin: 68px 50px"
+                      >
+                        <circle cx="68" cy="50" r="2" fill="#1a1a1a" />
+                      </g>
+                      <!-- Eye sparkle -->
+                      <g class="sparkle" style="transform-origin: 56px 47px">
+                        <path
+                          d="M55,45 L56,47 L58,48 L56,49 L55,51 L54,49 L52,48 L54,47 Z"
+                          fill="#c8973e"
+                        />
+                      </g>
+                      <!-- Mouth (small open) -->
+                      <ellipse cx="60" cy="62" rx="3" ry="2" fill="#1a1a1a" />
+                    </g>
+                  </svg>
+                </div>
+
+                <!-- Scrum Master (center, clipboard) -->
+                <div class="cast-slot">
+                  <svg viewBox="0 0 130 200" aria-label="Scrum Master">
+                    <ellipse
+                      cx="65"
+                      cy="194"
+                      rx="34"
+                      ry="4"
+                      fill="rgba(26,26,26,0.16)"
+                    />
+                    <g class="jc-sm-body">
+                      <!-- Torso -->
+                      <rect
+                        x="33"
+                        y="76"
+                        width="64"
+                        height="82"
+                        rx="14"
+                        fill="#5a6470"
+                      />
+                      <!-- Lanyard stripe -->
+                      <rect
+                        x="63"
+                        y="76"
+                        width="4"
+                        height="50"
+                        fill="#c8973e"
+                      />
+                      <!-- Arms -->
+                      <rect
+                        x="24"
+                        y="84"
+                        width="13"
+                        height="50"
+                        rx="6.5"
+                        fill="#5a6470"
+                      />
+                      <rect
+                        x="93"
+                        y="84"
+                        width="13"
+                        height="60"
+                        rx="6.5"
+                        fill="#5a6470"
+                      />
+                      <circle cx="30" cy="138" r="7" fill="#e8b89a" />
+                      <circle cx="100" cy="148" r="7" fill="#e8b89a" />
+                      <!-- Clipboard (held in left hand) -->
+                      <g
+                        class="jc-clipboard"
+                        style="transform-origin: 30px 138px"
+                      >
+                        <rect
+                          x="14"
+                          y="106"
+                          width="32"
+                          height="40"
+                          rx="2"
+                          fill="#f5f3ee"
+                          stroke="#1a1a1a"
+                          stroke-width="1.6"
+                        />
+                        <rect
+                          x="22"
+                          y="102"
+                          width="16"
+                          height="6"
+                          rx="1"
+                          fill="#1a1a1a"
+                        />
+                        <line
+                          x1="20"
+                          y1="118"
+                          x2="40"
+                          y2="118"
+                          stroke="#5a6470"
+                          stroke-width="1.4"
+                        />
+                        <line
+                          x1="20"
+                          y1="125"
+                          x2="38"
+                          y2="125"
+                          stroke="#5a6470"
+                          stroke-width="1.4"
+                        />
+                        <line
+                          x1="20"
+                          y1="132"
+                          x2="36"
+                          y2="132"
+                          stroke="#5a6470"
+                          stroke-width="1.4"
+                        />
+                      </g>
+                      <!-- Legs -->
+                      <rect
+                        x="40"
+                        y="158"
+                        width="16"
+                        height="36"
+                        fill="#1a1a1a"
+                      />
+                      <rect
+                        x="74"
+                        y="158"
+                        width="16"
+                        height="36"
+                        fill="#1a1a1a"
+                      />
+                      <ellipse cx="48" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                      <ellipse cx="82" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                    </g>
+                    <g class="jc-sm-head">
+                      <circle cx="65" cy="48" r="20" fill="#e8b89a" />
+                      <!-- Tidy haircut -->
+                      <path
+                        d="M46,42 Q48,28 65,26 Q82,28 84,42 Q72,38 65,38 Q56,38 46,42 Z"
+                        fill="#1a1a1a"
+                      />
+                      <!-- Brows raised -->
+                      <path
+                        d="M54,40 Q57,38 60,40"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M70,40 Q73,38 76,40"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                      />
+                      <!-- Eyes -->
+                      <circle cx="58" cy="48" r="2" fill="#1a1a1a" />
+                      <circle cx="72" cy="48" r="2" fill="#1a1a1a" />
+                      <!-- Mouth small upturn -->
+                      <path
+                        d="M58,60 Q65,64 72,60"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                      />
+                    </g>
+                  </svg>
+                </div>
+
+                <!-- Dev 3 (dimmed, partially clipped) -->
+                <div
+                  class="cast-slot"
+                  style="margin-right: -1.5rem; align-self: flex-end"
+                >
+                  <svg
+                    viewBox="0 0 110 180"
+                    class="jc-d3"
+                    id="standupD3"
+                    aria-label="Dev 3, present but dimmed"
+                    style="height: 88%"
+                  >
+                    <ellipse
+                      cx="55"
+                      cy="174"
+                      rx="28"
+                      ry="3.5"
+                      fill="rgba(26,26,26,0.12)"
+                    />
+                    <g class="jc-d3-body">
+                      <!-- Torso -->
+                      <rect
+                        x="25"
+                        y="68"
+                        width="60"
+                        height="78"
+                        rx="13"
+                        fill="#8a9d7d"
+                      />
+                      <!-- Arms tucked: just torso overlap -->
+                      <rect
+                        x="32"
+                        y="92"
+                        width="46"
+                        height="22"
+                        rx="6"
+                        fill="#8a9d7d"
+                      />
+                      <!-- Legs -->
+                      <rect
+                        x="32"
+                        y="146"
+                        width="14"
+                        height="28"
+                        fill="#1a1a1a"
+                      />
+                      <rect
+                        x="64"
+                        y="146"
+                        width="14"
+                        height="28"
+                        fill="#1a1a1a"
+                      />
+                      <ellipse
+                        cx="39"
+                        cy="174"
+                        rx="9"
+                        ry="2.5"
+                        fill="#1a1a1a"
+                      />
+                      <ellipse
+                        cx="71"
+                        cy="174"
+                        rx="9"
+                        ry="2.5"
+                        fill="#1a1a1a"
+                      />
+                      <!-- Head -->
+                      <circle cx="55" cy="44" r="20" fill="#d9a584" />
+                      <!-- Curls (3 stacked crescents) -->
+                      <ellipse cx="44" cy="30" rx="7" ry="5" fill="#1a1a1a" />
+                      <ellipse cx="55" cy="26" rx="8" ry="5" fill="#1a1a1a" />
+                      <ellipse cx="66" cy="30" rx="7" ry="5" fill="#1a1a1a" />
+                      <!-- Tiny eyes -->
+                      <g class="jc-d3-eye" style="transform-origin: 49px 46px">
+                        <circle cx="49" cy="46" r="1.6" fill="#1a1a1a" />
+                      </g>
+                      <g class="jc-d3-eye" style="transform-origin: 61px 46px">
+                        <circle cx="61" cy="46" r="1.6" fill="#1a1a1a" />
+                      </g>
+                      <!-- Faint mouth -->
+                      <line
+                        x1="51"
+                        y1="56"
+                        x2="59"
+                        y2="56"
+                        stroke="#1a1a1a"
+                        stroke-width="1.2"
+                      />
+                    </g>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="stage__bubbles" id="standupBubbles">
+                <div
+                  class="jc-bubble"
+                  data-cue="sm"
+                  style="--anchor-x: 62%; --anchor-y: 64%; --tail-x: 50%"
+                >
+                  <div
+                    class="jc-bubble__speaker"
+                    style="color: var(--color-now)"
+                  >
+                    Scrum Master
+                  </div>
+                  Let's go around. What's your JIRA status?
+                  <div class="jc-bubble__tail">
+                    <svg viewBox="0 0 18 14">
+                      <path d="M2,0 L9,12 L18,0 Z" fill="#f5f3ee" />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="jc-bubble"
+                  data-cue="d1"
+                  style="--anchor-x: 38%; --anchor-y: 64%; --tail-x: 50%"
+                >
+                  <div class="jc-bubble__speaker" style="color: #2d5f4e">
+                    Dev 1
+                  </div>
+                  I moved PROJ-4872 from "In Progress" to "In Review" but then
+                  back to "In Progress" because the acceptance criteria changed
+                  in a comment no one saw.
+                  <div class="jc-bubble__tail">
+                    <svg viewBox="0 0 18 14">
+                      <path d="M2,0 L9,12 L18,0 Z" fill="#f5f3ee" />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="jc-bubble"
+                  data-cue="d2"
+                  data-slump="1"
+                  style="--anchor-x: 22%; --anchor-y: 64%; --tail-x: 14%"
+                >
+                  <div
+                    class="jc-bubble__speaker"
+                    style="color: var(--color-d2-now)"
+                  >
+                    Dev 2
+                  </div>
+                  I'm blocked by PROJ-4901 which is assigned to someone on PTO.
+                  I left a comment 3 days ago.
+                  <div class="jc-bubble__tail">
+                    <svg viewBox="0 0 18 14">
+                      <path d="M2,0 L9,12 L18,0 Z" fill="#f5f3ee" />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="jc-bubble"
+                  data-cue="d3"
+                  style="--anchor-x: 78%; --anchor-y: 64%; --tail-x: 86%"
+                >
+                  <div
+                    class="jc-bubble__speaker"
+                    style="color: var(--color-d3-now)"
+                  >
+                    Dev 3
+                  </div>
+                  I spent 45 minutes yesterday updating ticket descriptions so
+                  the board looks accurate for the sprint review.
+                  <div class="jc-bubble__tail">
+                    <svg viewBox="0 0 18 14">
+                      <path d="M2,0 L9,12 L18,0 Z" fill="#f5f3ee" />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="jc-bubble"
+                  data-cue="sm"
+                  data-slump="3"
+                  style="--anchor-x: 62%; --anchor-y: 64%; --tail-x: 50%"
+                >
+                  <div
+                    class="jc-bubble__speaker"
+                    style="color: var(--color-now)"
+                  >
+                    Scrum Master
+                  </div>
+                  Great. Let's do this again tomorrow.
+                  <div class="jc-bubble__tail">
+                    <svg viewBox="0 0 18 14">
+                      <path d="M2,0 L9,12 L18,0 Z" fill="#f5f3ee" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="bubble-progress" aria-hidden="true">
+                <span class="bubble-dot is-active"></span>
+                <span class="bubble-dot"></span>
+                <span class="bubble-dot"></span>
+                <span class="bubble-dot"></span>
+                <span class="bubble-dot"></span>
+              </div>
+              <div class="scroll-hint" aria-hidden="true">
+                scroll <span class="scroll-hint__arrow">↓</span>
+              </div>
+            </div>
+
+            <div
+              class="footnote footnote--now reveal reveal--d4"
+              data-trigger="scroll-d2"
+            >
+              28 minutes of life: gone.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================
+           BEAT 3 · FUTURE · AI-NATIVE MORNING
+           ================================================ -->
+      <section
+        class="beat beat--future beat--dialogue"
+        data-beat="3"
+        data-era="future"
+        data-pair="1"
+      >
+        <div class="beat__inner">
+          <div class="scene-block">
+            <div class="scene-block__header">
+              <span class="kicker kicker--future reveal"
+                >1.2 · AI-Future · AI-Native Timeline</span
+              >
+              <span class="kicker reveal" style="color: var(--color-gray)"
+                >04:00</span
+              >
+            </div>
+            <h2
+              class="scene-block__title scene-block__title--future reveal reveal--d1"
+            >
+              The AI-Native Morning.
+            </h2>
+
+            <div class="stage stage--future reveal reveal--d2">
+              <div class="stage__props" aria-hidden="true">
+                <svg
+                  viewBox="0 0 800 320"
+                  preserveAspectRatio="none"
+                  style="
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                  "
+                >
+                  <!-- Drifting particles -->
+                  <circle
+                    cx="120"
+                    cy="240"
+                    r="3"
+                    fill="#c47a4d"
+                    class="jc-particle"
+                  />
+                  <circle
+                    cx="300"
+                    cy="260"
+                    r="2.4"
+                    fill="#c8973e"
+                    class="jc-particle jc-particle--b"
+                  />
+                  <circle
+                    cx="540"
+                    cy="230"
+                    r="3"
+                    fill="#c47a4d"
+                    class="jc-particle jc-particle--c"
+                  />
+                  <circle
+                    cx="680"
+                    cy="250"
+                    r="2.4"
+                    fill="#c8973e"
+                    class="jc-particle"
+                  />
+                  <!-- Plant in corner -->
+                  <g transform="translate(60,300)">
+                    <rect
+                      x="-12"
+                      y="-26"
+                      width="24"
+                      height="26"
+                      fill="#5a6470"
+                      rx="2"
+                    />
+                    <path
+                      d="M-2,-26 Q-10,-50 0,-60 Q10,-50 2,-26 Z"
+                      fill="#7a9572"
+                    />
+                    <path
+                      d="M-12,-30 Q-22,-46 -8,-50"
+                      fill="#6b8e5a"
+                      opacity="0.8"
+                    />
+                    <path
+                      d="M12,-30 Q22,-46 8,-50"
+                      fill="#6b8e5a"
+                      opacity="0.8"
+                    />
+                  </g>
+                </svg>
+              </div>
+
+              <div class="stage__floor"></div>
+
+              <div class="cast-row">
+                <!-- Dev 2 (settled) -->
+                <div class="cast-slot">
+                  <svg
+                    viewBox="0 0 120 200"
+                    class="jc-d2 jc-d2--future"
+                    aria-label="Dev 2, settled"
+                  >
+                    <ellipse
+                      cx="60"
+                      cy="194"
+                      rx="32"
+                      ry="4"
+                      fill="rgba(26,26,26,0.14)"
+                    />
+                    <g class="jc-d2-body">
+                      <!-- Round-neck collar -->
+                      <ellipse cx="60" cy="74" rx="22" ry="6" fill="#3d5a78" />
+                      <rect
+                        x="30"
+                        y="74"
+                        width="60"
+                        height="84"
+                        rx="14"
+                        fill="#3d5a78"
+                      />
+                      <rect
+                        x="20"
+                        y="82"
+                        width="14"
+                        height="60"
+                        rx="7"
+                        fill="#3d5a78"
+                      />
+                      <rect
+                        x="86"
+                        y="82"
+                        width="14"
+                        height="60"
+                        rx="7"
+                        fill="#3d5a78"
+                      />
+                      <circle cx="27" cy="146" r="7" fill="#f4c9a3" />
+                      <circle cx="93" cy="146" r="7" fill="#f4c9a3" />
+                      <rect
+                        x="36"
+                        y="158"
+                        width="16"
+                        height="36"
+                        fill="#1a1a1a"
+                      />
+                      <rect
+                        x="68"
+                        y="158"
+                        width="16"
+                        height="36"
+                        fill="#1a1a1a"
+                      />
+                      <ellipse cx="44" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                      <ellipse cx="76" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                    </g>
+                    <g>
+                      <circle cx="60" cy="46" r="22" fill="#f4c9a3" />
+                      <!-- Hair tucked -->
+                      <path
+                        d="M40,38 Q42,22 60,22 Q80,22 80,38 Q72,32 60,32 Q48,32 40,38 Z"
+                        fill="#1a1a1a"
+                      />
+                      <!-- Full eyes -->
+                      <circle cx="52" cy="48" r="2.4" fill="#1a1a1a" />
+                      <circle cx="68" cy="48" r="2.4" fill="#1a1a1a" />
+                      <!-- Sparkle glint -->
+                      <g class="sparkle" style="transform-origin: 56px 45px">
+                        <path
+                          d="M55,43 L56,45 L58,46 L56,47 L55,49 L54,47 L52,46 L54,45 Z"
+                          fill="#c8973e"
+                        />
+                      </g>
+                      <!-- Soft upward smile -->
+                      <path
+                        d="M52,58 Q60,64 68,58"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                      />
+                    </g>
+                  </svg>
+                </div>
+
+                <!-- Dev 1 with coffee mug -->
+                <div class="cast-slot">
+                  <svg viewBox="0 0 120 200" aria-label="Dev 1 with coffee">
+                    <ellipse
+                      cx="60"
+                      cy="194"
+                      rx="32"
+                      ry="4"
+                      fill="rgba(26,26,26,0.16)"
+                    />
+                    <g class="jc-d1-body">
+                      <rect
+                        x="27"
+                        y="76"
+                        width="66"
+                        height="82"
+                        rx="14"
+                        fill="#2d5f4e"
+                      />
+                      <rect
+                        x="68"
+                        y="84"
+                        width="14"
+                        height="14"
+                        fill="#f5f3ee"
+                        stroke="#1a1a1a"
+                        stroke-width="1"
+                      />
+                      <rect
+                        x="73"
+                        y="80"
+                        width="3"
+                        height="10"
+                        fill="#c8973e"
+                      />
+                      <rect
+                        x="17"
+                        y="84"
+                        width="13"
+                        height="60"
+                        rx="6.5"
+                        fill="#2d5f4e"
+                      />
+                      <rect
+                        x="90"
+                        y="84"
+                        width="13"
+                        height="50"
+                        rx="6.5"
+                        fill="#2d5f4e"
+                      />
+                      <circle cx="23" cy="148" r="7" fill="#f4c9a3" />
+                      <!-- Coffee mug in right hand -->
+                      <rect
+                        x="93"
+                        y="130"
+                        width="18"
+                        height="14"
+                        rx="2"
+                        fill="#f5f3ee"
+                        stroke="#1a1a1a"
+                        stroke-width="1.4"
+                      />
+                      <path
+                        d="M111,134 Q117,134 117,140 Q117,144 111,144"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.4"
+                      />
+                      <ellipse cx="102" cy="134" rx="7" ry="2" fill="#9a7230" />
+                      <!-- Steam -->
+                      <ellipse
+                        cx="100"
+                        cy="124"
+                        rx="2"
+                        ry="2"
+                        fill="#a3a3a3"
+                        opacity="0.6"
+                        class="jc-steam"
+                      />
+                      <ellipse
+                        cx="105"
+                        cy="120"
+                        rx="1.6"
+                        ry="2"
+                        fill="#a3a3a3"
+                        opacity="0.6"
+                        class="jc-steam jc-steam--b"
+                      />
+                      <rect
+                        x="36"
+                        y="158"
+                        width="16"
+                        height="36"
+                        fill="#1a1a1a"
+                      />
+                      <rect
+                        x="68"
+                        y="158"
+                        width="16"
+                        height="36"
+                        fill="#1a1a1a"
+                      />
+                      <ellipse cx="44" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                      <ellipse cx="76" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                      <circle cx="60" cy="48" r="22" fill="#f4c9a3" />
+                      <path
+                        d="M38,46 Q40,28 60,24 Q80,28 82,46 Q72,38 60,38 Q48,38 38,46 Z"
+                        fill="#1a1a1a"
+                      />
+                      <path
+                        d="M68,22 Q72,14 78,22"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                      />
+                      <circle
+                        cx="52"
+                        cy="50"
+                        r="7"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.6"
+                      />
+                      <circle
+                        cx="68"
+                        cy="50"
+                        r="7"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.6"
+                      />
+                      <line
+                        x1="59"
+                        y1="50"
+                        x2="61"
+                        y2="50"
+                        stroke="#1a1a1a"
+                        stroke-width="1.6"
+                      />
+                      <circle cx="52" cy="50" r="2" fill="#1a1a1a" />
+                      <circle cx="68" cy="50" r="2" fill="#1a1a1a" />
+                      <path
+                        d="M54,60 Q60,64 66,60"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                      />
+                    </g>
+                  </svg>
+                </div>
+
+                <!-- AI orb (center, head height) -->
+                <div class="cast-slot" style="align-self: center">
+                  <svg
+                    viewBox="0 0 200 200"
+                    class="jc-ai"
+                    id="aiOrb"
+                    aria-label="AI presence"
+                    style="height: 70%"
+                  >
+                    <g class="jc-ai-glow">
+                      <circle
+                        cx="100"
+                        cy="100"
+                        r="78"
+                        fill="#c47a4d"
+                        opacity="0.14"
+                      />
+                    </g>
+                    <g
+                      class="jc-ai-spark-main"
+                      style="transform-origin: 100px 100px"
+                    >
+                      <path
+                        d="M100,18 Q104,92 174,100 Q104,108 100,182 Q96,108 26,100 Q96,92 100,18 Z"
+                        fill="#c47a4d"
+                      />
+                    </g>
+                    <g
+                      class="jc-ai-spark-counter"
+                      style="transform-origin: 100px 100px"
+                    >
+                      <path
+                        d="M100,52 Q102,96 144,100 Q102,104 100,148 Q98,104 56,100 Q98,96 100,52 Z"
+                        fill="#c8973e"
+                        opacity="0.85"
+                      />
+                    </g>
+                  </svg>
+                </div>
+
+                <!-- Dev 3 (settled, seen) -->
+                <div class="cast-slot">
+                  <svg
+                    viewBox="0 0 120 200"
+                    class="jc-d3 jc-d3--future"
+                    aria-label="Dev 3, seen"
+                  >
+                    <!-- Halo behind head -->
+                    <circle
+                      class="jc-d3-halo"
+                      cx="60"
+                      cy="46"
+                      r="36"
+                      fill="#c47a4d"
+                      opacity="0.22"
+                    />
+                    <ellipse
+                      cx="60"
+                      cy="194"
+                      rx="32"
+                      ry="4"
+                      fill="rgba(26,26,26,0.14)"
+                    />
+                    <g class="jc-d3-body">
+                      <rect
+                        x="28"
+                        y="74"
+                        width="64"
+                        height="82"
+                        rx="14"
+                        fill="#6b8e5a"
+                      />
+                      <!-- Right hand raised in small wave -->
+                      <rect
+                        x="92"
+                        y="64"
+                        width="13"
+                        height="48"
+                        rx="6.5"
+                        fill="#6b8e5a"
+                        transform="rotate(-18 98 88)"
+                      />
+                      <circle cx="100" cy="64" r="7" fill="#d9a584" />
+                      <rect
+                        x="20"
+                        y="84"
+                        width="13"
+                        height="60"
+                        rx="6.5"
+                        fill="#6b8e5a"
+                      />
+                      <circle cx="26" cy="148" r="7" fill="#d9a584" />
+                      <rect
+                        x="36"
+                        y="156"
+                        width="16"
+                        height="38"
+                        fill="#1a1a1a"
+                      />
+                      <rect
+                        x="68"
+                        y="156"
+                        width="16"
+                        height="38"
+                        fill="#1a1a1a"
+                      />
+                      <ellipse cx="44" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                      <ellipse cx="76" cy="194" rx="11" ry="3" fill="#1a1a1a" />
+                      <circle cx="60" cy="46" r="20" fill="#d9a584" />
+                      <ellipse cx="48" cy="32" rx="7" ry="5" fill="#1a1a1a" />
+                      <ellipse cx="60" cy="28" rx="8" ry="5" fill="#1a1a1a" />
+                      <ellipse cx="72" cy="32" rx="7" ry="5" fill="#1a1a1a" />
+                      <circle cx="54" cy="48" r="2" fill="#1a1a1a" />
+                      <circle cx="66" cy="48" r="2" fill="#1a1a1a" />
+                      <g class="sparkle" style="transform-origin: 58px 45px">
+                        <path
+                          d="M57,43 L58,45 L60,46 L58,47 L57,49 L56,47 L54,46 L56,45 Z"
+                          fill="#c8973e"
+                        />
+                      </g>
+                      <!-- Trembling smile (3-point path) -->
+                      <path
+                        d="M52,58 Q56,64 60,62 Q64,64 68,58"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                      />
+                    </g>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="stage__bubbles" id="aiMorningBubbles">
+                <div
+                  class="jc-bubble jc-bubble--ai"
+                  data-cue="ai"
+                  style="--anchor-x: 62%; --anchor-y: 56%; --tail-x: 50%"
+                >
+                  <div class="jc-bubble__speaker">AI</div>
+                  Morning team. Here's what I see: the auth flow is 90% there
+                  but there's an unspoken dependency on the design system
+                  migration. Also, the legacy API contract shifted Tuesday. The
+                  mocks are stale. I pinged the API team in Teams.
+                  <div class="jc-bubble__tail">
+                    <svg viewBox="0 0 18 14">
+                      <path d="M2,0 L9,12 L18,0 Z" fill="#f9f5ed" />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="jc-bubble"
+                  data-cue="d1"
+                  style="--anchor-x: 38%; --anchor-y: 64%; --tail-x: 50%"
+                >
+                  <div class="jc-bubble__speaker" style="color: #2d5f4e">
+                    Dev 1
+                  </div>
+                  Oh wow, I didn't even realize the mocks were out of date.
+                  <div class="jc-bubble__tail">
+                    <svg viewBox="0 0 18 14">
+                      <path d="M2,0 L9,12 L18,0 Z" fill="#f5f3ee" />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="jc-bubble jc-bubble--ai"
+                  data-cue="ai"
+                  style="--anchor-x: 62%; --anchor-y: 56%; --tail-x: 50%"
+                >
+                  <div class="jc-bubble__speaker">AI</div>
+                  Also, you've all been context-switching more than usual this
+                  week. Might be worth protecting Thursday for deep work.
+                  <div class="jc-bubble__tail">
+                    <svg viewBox="0 0 18 14">
+                      <path d="M2,0 L9,12 L18,0 Z" fill="#f9f5ed" />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="jc-bubble"
+                  data-cue="d2f"
+                  style="--anchor-x: 22%; --anchor-y: 64%; --tail-x: 14%"
+                >
+                  <div
+                    class="jc-bubble__speaker"
+                    style="color: var(--color-d2-future)"
+                  >
+                    Dev 2
+                  </div>
+                  …can we keep this thing?
+                  <div class="jc-bubble__tail">
+                    <svg viewBox="0 0 18 14">
+                      <path d="M2,0 L9,12 L18,0 Z" fill="#f5f3ee" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="bubble-progress" aria-hidden="true">
+                <span class="bubble-dot is-active"></span>
+                <span class="bubble-dot"></span>
+                <span class="bubble-dot"></span>
+                <span class="bubble-dot"></span>
+              </div>
+              <div class="scroll-hint" aria-hidden="true">
+                scroll <span class="scroll-hint__arrow">↓</span>
+              </div>
+            </div>
+
+            <div class="footnote footnote--future reveal reveal--d4">
+              Status from a teammate, not a ritual.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Placeholder for remaining beats -->
+      <section class="beat" data-beat="endplaceholder">
+        <div
+          class="beat__inner"
+          style="text-align: center; max-width: 36rem; margin: 0 auto"
+        >
+          <div
+            class="kicker reveal"
+            style="color: var(--color-gray); margin-bottom: 1rem"
+          >
+            Phase A + B preview
+          </div>
+          <h2
+            class="reveal reveal--d1"
+            style="
+              font-family: var(--font-display);
+              font-weight: 700;
+              font-size: clamp(1.6rem, 3vw, 2.2rem);
+              line-height: 1.1;
+              margin: 0 0 1rem;
+              color: var(--color-ink);
+            "
+          >
+            Four more pairs.<br />The meta beat. The finale. The credits.
+          </h2>
+          <p
+            class="reveal reveal--d2"
+            style="
+              color: var(--color-ink-soft);
+              font-family: var(--font-display);
+              font-style: italic;
+              font-size: 1.1rem;
+            "
+          >
+            Sprint Planning · Ticket Update · Invisible Work · Board Is Law /
+            Relapse — coming in Phase C.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        const beats = Array.from(document.querySelectorAll(".beat"));
+        const rail = document.getElementById("rail");
+        const indicator = document.getElementById("timelineIndicator");
+        const indicatorLabel = document.getElementById("timelineLabel");
+        const pairBridge = document.getElementById("pairBridge");
+
+        // Build rail
+        beats.forEach((beat) => {
+          if (beat.dataset.beat === "endplaceholder") return;
+          const dot = document.createElement("button");
+          dot.className = "rail__dot";
+          dot.dataset.beat = beat.dataset.beat;
+          if (beat.dataset.era) dot.dataset.era = beat.dataset.era;
+          dot.setAttribute("aria-label", `Beat ${beat.dataset.beat}`);
+          dot.addEventListener("click", () => {
+            beat.scrollIntoView({ behavior: "smooth" });
+          });
+          rail.appendChild(dot);
+        });
+
+        const dots = Array.from(rail.querySelectorAll(".rail__dot"));
+
+        function setActive(beatNum) {
+          dots.forEach((dot) => {
+            const num = dot.dataset.beat;
+            dot.classList.toggle("is-active", num === beatNum);
+            dot.classList.toggle(
+              "is-past",
+              !isNaN(parseInt(num)) && parseInt(num) < parseInt(beatNum),
+            );
+          });
+        }
+
+        function setTimeline(era) {
+          if (!era) {
+            indicator.classList.remove("is-visible");
+            indicator.removeAttribute("data-era");
+            return;
+          }
+          indicator.classList.add("is-visible");
+          indicator.dataset.era = era;
+          indicatorLabel.textContent = era === "now" ? "Now" : "AI-Future";
+        }
+
+        let lastEra = null;
+        function maybeSweep(era) {
+          if (lastEra && era && lastEra !== era) {
+            pairBridge.classList.remove("is-sweeping");
+            // restart animation
+            void pairBridge.offsetWidth;
+            pairBridge.classList.add("is-sweeping");
+          }
+          if (era) lastEra = era;
+        }
+
+        const handlers = {
+          2: runStandupNow,
+          3: runAiMorningFuture,
+        };
+
+        const handlerFired = new Set();
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const beat = entry.target;
+              beat.classList.add("is-in");
+              const num = beat.dataset.beat;
+              setActive(num);
+              setTimeline(beat.dataset.era);
+              maybeSweep(beat.dataset.era);
+              const fn = handlers[num];
+              if (fn && !handlerFired.has(num)) {
+                handlerFired.add(num);
+                fn(beat);
+              }
+            });
+          },
+          { threshold: 0, rootMargin: "-25% 0px -25% 0px" },
+        );
+
+        beats.forEach((beat) => io.observe(beat));
+
+        // Scroll-driven bubble runner — user scrolls within the (tall) beat
+        // and bubbles advance one at a time. Last bubble persists.
+        function setupScrollBubbles(beat, opts = {}) {
+          const bubbles = Array.from(beat.querySelectorAll(".jc-bubble"));
+          if (!bubbles.length) return;
+          let lastIdx = -1;
+          let raf = 0;
+          function update() {
+            raf = 0;
+            const rect = beat.getBoundingClientRect();
+            const scrollable = beat.offsetHeight - window.innerHeight;
+            if (scrollable <= 0) return;
+            const scrolled = Math.max(0, Math.min(scrollable, -rect.top));
+            const progress = scrolled / scrollable;
+            // Shift the active region so first bubble shows once user starts
+            // scrolling and last bubble locks in before footnote.
+            const start = 0.05;
+            const end = 0.92;
+            const eased = (progress - start) / (end - start);
+            const clamped = Math.max(0, Math.min(1, eased));
+            const targetIdx = Math.min(
+              bubbles.length - 1,
+              Math.floor(clamped * bubbles.length),
+            );
+            if (targetIdx === lastIdx) return;
+            lastIdx = targetIdx;
+            bubbles.forEach((b, i) => {
+              const wasActive = b.classList.contains("is-in");
+              const willBeActive = i === targetIdx;
+              if (willBeActive && !wasActive) {
+                b.classList.remove("is-out");
+                b.classList.add("is-in");
+              } else if (!willBeActive && wasActive) {
+                b.classList.remove("is-in");
+                b.classList.add("is-out");
+                setTimeout(() => b.classList.remove("is-out"), 320);
+              }
+            });
+            const dots = beat.querySelectorAll(".bubble-dot");
+            dots.forEach((dot, i) => {
+              dot.classList.toggle("is-active", i === targetIdx);
+              dot.classList.toggle("is-past", i < targetIdx);
+            });
+            beat.classList.toggle("is-progressed", targetIdx > 0);
+            if (opts.onBubble) opts.onBubble(bubbles[targetIdx], targetIdx);
+          }
+          function onScroll() {
+            if (raf) return;
+            raf = requestAnimationFrame(update);
+          }
+          window.addEventListener("scroll", onScroll, { passive: true });
+          window.addEventListener("resize", onScroll, { passive: true });
+          update();
+        }
+
+        // Beat 2: Standup Now — progressive Dev 2 slump
+        function runStandupNow(beat) {
+          const d2 = document.getElementById("standupD2");
+          setupScrollBubbles(beat, {
+            onBubble: (bubble) => {
+              if (!bubble) return;
+              const slumpAttr = bubble.dataset.slump;
+              if (slumpAttr && d2) {
+                d2.dataset.slump = slumpAttr;
+              }
+            },
+          });
+        }
+
+        // Beat 3: AI-Morning Future — AI orb pulses faster when AI speaks
+        function runAiMorningFuture(beat) {
+          const ai = document.getElementById("aiOrb");
+          let lastSpeaker = null;
+          setupScrollBubbles(beat, {
+            onBubble: (bubble) => {
+              if (!bubble) return;
+              const cue = bubble.dataset.cue;
+              if (cue === lastSpeaker) return;
+              lastSpeaker = cue;
+              if (cue === "ai" && ai) {
+                ai.classList.add("is-speaking");
+                setTimeout(() => ai.classList.remove("is-speaking"), 1400);
+              }
+            },
+          });
+        }
+
+        // Keyboard nav
+        document.addEventListener("keydown", (e) => {
+          if (
+            e.target instanceof HTMLInputElement ||
+            e.target instanceof HTMLTextAreaElement
+          )
+            return;
+          const fromTop = window.scrollY + window.innerHeight * 0.4;
+          let activeIdx = 0;
+          beats.forEach((beat, i) => {
+            if (beat.offsetTop <= fromTop) activeIdx = i;
+          });
+          const currentBeat = beats[activeIdx];
+          const isDialogue = currentBeat?.classList.contains("beat--dialogue");
+
+          function stepInDialogue(direction) {
+            const bubbleCount =
+              currentBeat.querySelectorAll(".jc-bubble").length;
+            if (!bubbleCount) return false;
+            const segments = bubbleCount + 1;
+            const beatTop = currentBeat.offsetTop;
+            const beatH = currentBeat.offsetHeight;
+            const winH = window.innerHeight;
+            const scrollable = beatH - winH;
+            const segmentSize = scrollable / segments;
+            const currentScroll = window.scrollY;
+            const offsetWithin = Math.max(
+              0,
+              Math.min(scrollable, currentScroll - beatTop),
+            );
+            const currentSegment = Math.round(offsetWithin / segmentSize);
+            const targetSegment = Math.max(
+              0,
+              Math.min(segments, currentSegment + direction),
+            );
+            // If we'd step past the end, fall through to next-beat behavior.
+            if (direction > 0 && currentSegment >= segments) return false;
+            if (direction < 0 && currentSegment <= 0) return false;
+            const targetScroll = beatTop + targetSegment * segmentSize;
+            window.scrollTo({ top: targetScroll, behavior: "smooth" });
+            return true;
+          }
+
+          if (
+            e.key === "ArrowDown" ||
+            e.key === "ArrowRight" ||
+            e.key === "PageDown" ||
+            e.key === " "
+          ) {
+            e.preventDefault();
+            if (isDialogue && stepInDialogue(1)) return;
+            const next = beats[Math.min(beats.length - 1, activeIdx + 1)];
+            next?.scrollIntoView({ behavior: "smooth" });
+          } else if (
+            e.key === "ArrowUp" ||
+            e.key === "ArrowLeft" ||
+            e.key === "PageUp"
+          ) {
+            e.preventDefault();
+            if (isDialogue && stepInDialogue(-1)) return;
+            const prev = beats[Math.max(0, activeIdx - 1)];
+            prev?.scrollIntoView({ behavior: "smooth" });
+          } else if (e.key === "Home") {
+            e.preventDefault();
+            beats[0]?.scrollIntoView({ behavior: "smooth" });
+          } else if (e.key === "End") {
+            e.preventDefault();
+            beats[beats.length - 1]?.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -3,6 +3,7 @@ import FutureBadge from "./FutureBadge";
 import Panel from "./Panel";
 
 export default function VsScene({ scene, isVisible }) {
+  const accent = scene.era === "now" ? "#ff5a36" : "#2d5f4e";
   return (
     <div
       style={{
@@ -16,24 +17,27 @@ export default function VsScene({ scene, isVisible }) {
       </div>
       <h2
         style={{
-          fontSize: "clamp(22px, 5vw, 38px)",
-          fontFamily: "'Playfair Display', serif",
+          fontSize: "clamp(26px, 5.5vw, 44px)",
+          fontFamily: "'Fraunces', 'Iowan Old Style', Georgia, serif",
           fontWeight: 700,
           marginBottom: "clamp(28px, 3vw, 36px)",
-          color: scene.era === "now" ? "#ff6b6b" : "#a29bfe",
+          color: accent,
+          letterSpacing: "-0.01em",
+          lineHeight: 1.1,
         }}
       >
         {scene.title}
       </h2>
       <div
         style={{
-          background: "rgba(255,255,255,0.03)",
-          border: "1px solid rgba(255,255,255,0.06)",
+          background: "rgba(26,26,26,0.03)",
+          border: "1px solid rgba(26,26,26,0.08)",
           borderRadius: 16,
-          padding: "clamp(10px, 1.4vw, 16px) clamp(24px, 3vw, 36px) clamp(28px, 3.5vw, 40px)",
+          padding:
+            "clamp(10px, 1.4vw, 16px) clamp(24px, 3vw, 36px) clamp(28px, 3.5vw, 40px)",
         }}
       >
-        <Panel panel={scene.panel} isVisible={isVisible} />
+        <Panel panel={scene.panel} isVisible={isVisible} accent={accent} />
       </div>
     </div>
   );

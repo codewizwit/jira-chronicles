@@ -9,13 +9,12 @@ export default function CreditsScene({ scene, isVisible }) {
     >
       <h2
         style={{
-          fontSize: "clamp(24px, 5vw, 40px)",
-          fontFamily: "'Playfair Display', serif",
+          fontSize: "clamp(28px, 5.5vw, 44px)",
+          fontFamily: "'Fraunces', 'Iowan Old Style', Georgia, serif",
           fontWeight: 900,
           marginBottom: "clamp(28px, 3vw, 36px)",
-          background: "linear-gradient(135deg, #ffd93d, #ff6b6b, #a29bfe)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
+          color: "#1a1a1a",
+          letterSpacing: "-0.02em",
         }}
       >
         {scene.title}
@@ -23,8 +22,8 @@ export default function CreditsScene({ scene, isVisible }) {
 
       <div
         style={{
-          background: "rgba(255,255,255,0.03)",
-          border: "1px solid rgba(255,255,255,0.06)",
+          background: "rgba(26,26,26,0.03)",
+          border: "1px solid rgba(26,26,26,0.08)",
           borderRadius: 16,
           padding: "clamp(20px, 2.5vw, 32px) clamp(24px, 3vw, 36px)",
           maxWidth: 640,
@@ -67,22 +66,25 @@ export default function CreditsScene({ scene, isVisible }) {
                 <div>
                   <div
                     style={{
-                      fontSize: "clamp(13px, 1.4vw, 17px)",
-                      fontWeight: 700,
-                      fontFamily: "'Space Mono', monospace",
+                      fontSize: "clamp(13px, 1.4vw, 16px)",
+                      fontWeight: 600,
+                      fontFamily:
+                        "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
                       color: char.color,
-                      marginBottom: 2,
+                      textTransform: "uppercase",
+                      letterSpacing: 1.2,
+                      marginBottom: 4,
                     }}
                   >
                     {char.name}
                   </div>
                   <div
                     style={{
-                      fontSize: "clamp(12px, 1.2vw, 15px)",
-                      color: "rgba(255,255,255,0.45)",
-                      fontFamily: "'IBM Plex Sans', sans-serif",
-                      fontStyle: "italic",
-                      lineHeight: 1.4,
+                      fontSize: "clamp(14px, 1.4vw, 16px)",
+                      color: "rgba(26,26,26,0.7)",
+                      fontFamily:
+                        "'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+                      lineHeight: 1.5,
                     }}
                   >
                     {char.description}
@@ -96,7 +98,8 @@ export default function CreditsScene({ scene, isVisible }) {
                     display: "flex",
                     alignItems: "flex-start",
                     gap: "clamp(10px, 1.2vw, 14px)",
-                    marginTop: 8,
+                    marginTop: 10,
+                    marginLeft: "clamp(28px, 3vw, 38px)",
                   }}
                 >
                   <span
@@ -111,22 +114,25 @@ export default function CreditsScene({ scene, isVisible }) {
                   <div>
                     <div
                       style={{
-                        fontSize: "clamp(13px, 1.4vw, 17px)",
-                        fontWeight: 700,
-                        fontFamily: "'Space Mono', monospace",
+                        fontSize: "clamp(13px, 1.4vw, 16px)",
+                        fontWeight: 600,
+                        fontFamily:
+                          "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
                         color: char.color,
-                        marginBottom: 2,
+                        textTransform: "uppercase",
+                        letterSpacing: 1.2,
+                        marginBottom: 4,
                       }}
                     >
                       {char.arcName}
                     </div>
                     <div
                       style={{
-                        fontSize: "clamp(12px, 1.2vw, 15px)",
-                        color: "rgba(255,255,255,0.45)",
-                        fontFamily: "'IBM Plex Sans', sans-serif",
-                        fontStyle: "italic",
-                        lineHeight: 1.4,
+                        fontSize: "clamp(14px, 1.4vw, 16px)",
+                        color: "rgba(26,26,26,0.7)",
+                        fontFamily:
+                          "'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+                        lineHeight: 1.5,
                       }}
                     >
                       {char.arcDescription}

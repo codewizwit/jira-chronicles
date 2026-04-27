@@ -43,15 +43,16 @@ src/
 - **Scene data**: The `scenes` array in `src/data/scenes.js` defines all content. Each scene has `id`, `type` (`title`, `vs`, `meta`, `finale`), and type-specific fields.
 - **Cast**: The `cast` object in `src/data/scenes.js` defines each character as a display string (`"Name emoji"`). Dialogue entries reference `cast.dev1`, `cast.ai`, etc. — change the string once and it updates everywhere. No lookup logic needed; `DialogueBubble` renders the speaker value directly.
 
-| Key | Display | Personality |
-|-----|---------|-------------|
-| `scrumMaster` | Scrum Master 😅 | Earnest, doing their best with a bad system |
-| `dev1` | Dev 1 🤓 | The reliable everyperson coder |
-| `dev2` | Dev 2 🫠 | Melting under chaos, secretly wants structure |
-| `dev3` | Dev 3 😶 | Quiet — pays off in the invisible work reveal |
-| `manager` | Manager 🧐 | Sees the world through dashboards |
-| `jira` | JIRA ⚙️ | The machine. No soul. |
-| `ai` | AI ✨ | Warm, clear, helpful |
+| Key           | Display         | Personality                                   |
+| ------------- | --------------- | --------------------------------------------- |
+| `scrumMaster` | Scrum Master 😅 | Earnest, doing their best with a bad system   |
+| `dev1`        | Dev 1 🤓        | The reliable everyperson coder                |
+| `dev2`        | Dev 2 🫠        | Melting under chaos, secretly wants structure |
+| `dev3`        | Dev 3 😶        | Quiet — pays off in the invisible work reveal |
+| `manager`     | Manager 🧐      | Sees the world through dashboards             |
+| `jira`        | JIRA ⚙️         | The machine. No soul.                         |
+| `ai`          | AI ✨           | Warm, clear, helpful                          |
+
 - **State**: `useState` for `current` (active scene index) and `panelVisible` (animation toggle). No external state management.
 - **Styling**: All CSS is inline (style objects). Animations use CSS transitions with cubic-bezier easing. Typography uses `clamp()` for fluid scaling.
 - **Fonts**: Space Mono, IBM Plex Sans, Playfair Display loaded via Google Fonts CDN in `index.html`.

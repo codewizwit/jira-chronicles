@@ -14,8 +14,8 @@ export default function Navigation({ current, total, onBack, onNext }) {
         zIndex: 100,
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
-        background: "rgba(10, 10, 15, 0.85)",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
+        background: "rgba(250, 247, 242, 0.85)",
+        borderTop: "1px solid rgba(26,26,26,0.08)",
       }}
     >
       <button
@@ -27,9 +27,10 @@ export default function Navigation({ current, total, onBack, onNext }) {
           border: "none",
           outline: "none",
           textAlign: "left",
-          color: isFirst ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.5)",
+          color: isFirst ? "rgba(26,26,26,0.2)" : "rgba(26,26,26,0.55)",
           fontSize: "clamp(13px, 1.3vw, 15px)",
-          fontFamily: "'Space Mono', monospace",
+          fontFamily:
+            "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
           cursor: isFirst ? "default" : "pointer",
           transition: "all 0.2s ease",
         }}
@@ -45,9 +46,11 @@ export default function Navigation({ current, total, onBack, onNext }) {
           border: "none",
           outline: "none",
           textAlign: "right",
-          color: isLast ? "rgba(255,255,255,0.15)" : "#a29bfe",
+          color: isLast ? "rgba(26,26,26,0.2)" : "#ff5a36",
           fontSize: "clamp(13px, 1.3vw, 15px)",
-          fontFamily: "'Space Mono', monospace",
+          fontFamily:
+            "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
+          fontWeight: 600,
           cursor: isLast ? "default" : "pointer",
           transition: "all 0.2s ease",
         }}

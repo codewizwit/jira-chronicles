@@ -1,6 +1,6 @@
 import DialogueBubble from "./DialogueBubble";
 
-export default function Panel({ panel, isVisible }) {
+export default function Panel({ panel, isVisible, accent = "#ff5a36" }) {
   return (
     <div>
       <div
@@ -21,13 +21,14 @@ export default function Panel({ panel, isVisible }) {
         style={{
           marginTop: "clamp(20px, 2.5vw, 28px)",
           padding: "clamp(12px, 1.4vw, 16px) clamp(16px, 1.8vw, 22px)",
-          background: "rgba(255,255,255,0.04)",
+          background: "rgba(26,26,26,0.04)",
           borderRadius: 8,
-          borderLeft: "3px solid rgba(255,255,255,0.15)",
-          fontSize: "clamp(13px, 1.4vw, 16px)",
-          color: "rgba(255,255,255,0.7)",
-          fontFamily: "'IBM Plex Sans', sans-serif",
+          borderLeft: `3px solid ${accent}`,
+          fontSize: "clamp(14px, 1.4vw, 16px)",
+          color: "rgba(26,26,26,0.75)",
+          fontFamily: "'Fraunces', 'Iowan Old Style', Georgia, serif",
           fontStyle: "italic",
+          fontWeight: 500,
           lineHeight: 1.6,
         }}
       >

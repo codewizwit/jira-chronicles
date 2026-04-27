@@ -46,9 +46,10 @@ export default function JiraChronicles() {
     <div
       style={{
         minHeight: "100dvh",
-        background: "#0a0a0f",
-        color: "#fff",
-        fontFamily: "'IBM Plex Sans', sans-serif",
+        background: "#faf7f2",
+        color: "#1a1a1a",
+        fontFamily:
+          "'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
         position: "relative",
         display: "flex",
         flexDirection: "column",
@@ -59,10 +60,10 @@ export default function JiraChronicles() {
         style={{
           position: "fixed",
           inset: 0,
-          opacity: 0.03,
+          opacity: 0.04,
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)
+            linear-gradient(rgba(26,26,26,0.6) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(26,26,26,0.6) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
           pointerEvents: "none",

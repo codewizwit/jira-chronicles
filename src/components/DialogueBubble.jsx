@@ -5,6 +5,7 @@ export default function DialogueBubble({
   index,
   isVisible,
 }) {
+  const isAside = text.startsWith("(");
   return (
     <div
       style={{
@@ -30,19 +31,19 @@ export default function DialogueBubble({
             background: color,
             marginTop: "clamp(7px, 0.9vw, 10px)",
             flexShrink: 0,
-            boxShadow: `0 0 12px ${color}66`,
           }}
         />
         <div>
           <div
             style={{
-              fontSize: "clamp(13px, 1.4vw, 16px)",
-              fontWeight: 700,
+              fontSize: "clamp(12px, 1.3vw, 14px)",
+              fontWeight: 600,
               color: color,
-              fontFamily: "'Space Mono', monospace",
+              fontFamily:
+                "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
               textTransform: "uppercase",
-              letterSpacing: 1.2,
-              marginBottom: "clamp(2px, 0.3vh, 5px)",
+              letterSpacing: 1.4,
+              marginBottom: "clamp(4px, 0.5vh, 7px)",
             }}
           >
             {speaker}
@@ -50,11 +51,12 @@ export default function DialogueBubble({
           <div
             style={{
               fontSize: "clamp(15px, 1.6vw, 19px)",
-              lineHeight: 1.5,
-              color: "#e0e0e0",
-              fontFamily: "'IBM Plex Sans', sans-serif",
-              fontStyle: text.startsWith("(") ? "italic" : "normal",
-              opacity: text.startsWith("(") ? 0.6 : 1,
+              lineHeight: 1.55,
+              color: isAside ? "rgba(26,26,26,0.55)" : "#1a1a1a",
+              fontFamily:
+                "'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+              fontStyle: isAside ? "italic" : "normal",
+              fontWeight: 400,
             }}
           >
             {text}

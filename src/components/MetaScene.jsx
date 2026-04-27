@@ -17,30 +17,31 @@ export default function MetaScene({ scene, isVisible }) {
             display: "inline-flex",
             alignItems: "center",
             gap: 6,
-            background: "linear-gradient(135deg, #ff6b6b, #a29bfe)",
-            color: "#fff",
+            background: "#1a1a1a",
+            color: "#faf7f2",
             padding: "clamp(4px, 0.5vw, 6px) clamp(14px, 1.5vw, 18px)",
             borderRadius: 20,
             fontSize: "clamp(13px, 1.3vw, 15px)",
             fontWeight: 700,
             letterSpacing: 1.5,
             textTransform: "uppercase",
-            fontFamily: "'Space Mono', monospace",
+            fontFamily:
+              "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
           }}
         >
-          🔮 TRANSCENDING TO THE AI TIMELINE
+          How this idea took shape
         </span>
       </div>
       <h2
         style={{
-          fontSize: "clamp(24px, 5vw, 40px)",
-          fontFamily: "'Playfair Display', serif",
+          fontSize: "clamp(28px, 5.5vw, 44px)",
+          fontFamily: "'Fraunces', 'Iowan Old Style', Georgia, serif",
           fontWeight: 900,
           marginBottom: "clamp(8px, 1.2vw, 14px)",
           textAlign: "center",
-          background: "linear-gradient(135deg, #ffd93d, #ff6b6b, #a29bfe)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
+          color: "#1a1a1a",
+          letterSpacing: "-0.02em",
+          lineHeight: 1.1,
         }}
       >
         {scene.title}
@@ -48,11 +49,12 @@ export default function MetaScene({ scene, isVisible }) {
       <p
         style={{
           textAlign: "center",
-          fontSize: "clamp(15px, 1.5vw, 18px)",
-          color: "rgba(255,255,255,0.4)",
-          fontFamily: "'IBM Plex Sans', sans-serif",
-          marginBottom: "clamp(20px, 3vw, 36px)",
+          fontSize: "clamp(16px, 1.6vw, 20px)",
+          color: "rgba(26,26,26,0.55)",
+          fontFamily: "'Fraunces', 'Iowan Old Style', Georgia, serif",
           fontStyle: "italic",
+          fontWeight: 500,
+          marginBottom: "clamp(20px, 3vw, 36px)",
         }}
       >
         {scene.subtitle}
@@ -60,8 +62,8 @@ export default function MetaScene({ scene, isVisible }) {
 
       <div
         style={{
-          background: "rgba(255,255,255,0.03)",
-          border: "1px solid rgba(255,255,255,0.06)",
+          background: "rgba(26,26,26,0.03)",
+          border: "1px solid rgba(26,26,26,0.08)",
           borderRadius: 16,
           padding: "clamp(20px, 2.5vw, 32px) clamp(24px, 3vw, 36px)",
         }}
@@ -74,9 +76,7 @@ export default function MetaScene({ scene, isVisible }) {
               gap: "clamp(12px, 1.4vw, 18px)",
               alignItems: "flex-start",
               marginBottom:
-                i < scene.steps.length - 1
-                  ? "clamp(14px, 1.8vw, 22px)"
-                  : 0,
+                i < scene.steps.length - 1 ? "clamp(14px, 1.8vw, 22px)" : 0,
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? "translateX(0)" : "translateX(-20px)",
               transition: `all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${i * 0.18}s`,
@@ -90,7 +90,8 @@ export default function MetaScene({ scene, isVisible }) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "rgba(255,255,255,0.04)",
+                background: "rgba(26,26,26,0.05)",
+                border: "1px solid rgba(26,26,26,0.08)",
                 borderRadius: 10,
                 flexShrink: 0,
               }}
@@ -101,22 +102,24 @@ export default function MetaScene({ scene, isVisible }) {
               <div
                 style={{
                   fontSize: "clamp(11px, 1.1vw, 13px)",
-                  fontWeight: 700,
-                  fontFamily: "'Space Mono', monospace",
+                  fontWeight: 600,
+                  fontFamily:
+                    "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
                   textTransform: "uppercase",
-                  letterSpacing: 1.2,
-                  color: "#ffd93d",
-                  marginBottom: 2,
+                  letterSpacing: 1.4,
+                  color: "#ff5a36",
+                  marginBottom: 4,
                 }}
               >
                 {step.label}
               </div>
               <div
                 style={{
-                  fontSize: "clamp(14px, 1.4vw, 17px)",
-                  lineHeight: 1.5,
-                  color: "rgba(255,255,255,0.6)",
-                  fontFamily: "'IBM Plex Sans', sans-serif",
+                  fontSize: "clamp(15px, 1.5vw, 18px)",
+                  lineHeight: 1.55,
+                  color: "rgba(26,26,26,0.78)",
+                  fontFamily:
+                    "'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
                 }}
               >
                 {step.text}
@@ -131,9 +134,10 @@ export default function MetaScene({ scene, isVisible }) {
           style={{
             marginTop: "clamp(20px, 2.5vw, 36px)",
             fontSize: "clamp(16px, 1.7vw, 20px)",
-            color: "rgba(255,255,255,0.8)",
-            fontFamily: "'IBM Plex Sans', sans-serif",
-            lineHeight: 1.6,
+            color: "#1a1a1a",
+            fontFamily: "'Fraunces', 'Iowan Old Style', Georgia, serif",
+            fontStyle: "italic",
+            lineHeight: 1.55,
             textAlign: "center",
             fontWeight: 600,
             opacity: isVisible ? 1 : 0,

@@ -471,7 +471,7 @@
       .jc-bubble {
         position: absolute;
         left: var(--anchor-x, 50%);
-        bottom: var(--anchor-y, 56%);
+        bottom: calc(var(--anchor-y, 56%) + 5px);
         transform: translateX(-50%) translateY(0) scale(0.6);
         transform-origin: var(--tail-x, 50%) 100%;
         background: rgba(245, 243, 238, 0.86);
@@ -895,67 +895,102 @@
         margin: 0;
       }
 
-      /* Cast portraits — compact, fit-on-one-page */
+      /* Cast portraits — two tiered rows: AI/Dev2/Dev3 on top, the rest below */
       .cast-portraits {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-        gap: 0.8rem;
-        margin: clamp(1rem, 2vw, 1.6rem) auto 0;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1.2rem;
+        margin: clamp(1.4rem, 2.4vw, 2rem) auto 0;
       }
       .portrait-card {
         background: rgba(245, 243, 238, 0.55);
         border: 1px solid rgba(26, 26, 26, 0.06);
-        border-radius: 10px;
-        padding: 0.7rem 0.6rem 0.85rem;
+        border-radius: 14px;
+        padding: 1.2rem 1rem 1.4rem;
         text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
+        grid-column: span 3;
       }
       .portrait-card--arc {
-        grid-column: span 2;
+        grid-column: span 3;
       }
-      @media (max-width: 540px) {
-        .portrait-card--arc {
-          grid-column: span 2;
+      /* Top row: Dev 3, Dev 2, Dev 1 — each spans 4 of 12 */
+      .cast-portraits > .portrait-card:nth-child(4) {
+        order: 1;
+        grid-column: span 4;
+      }
+      .cast-portraits > .portrait-card:nth-child(3) {
+        order: 2;
+        grid-column: span 4;
+      }
+      .cast-portraits > .portrait-card:nth-child(2) {
+        order: 3;
+        grid-column: span 4;
+      }
+      /* Bottom row: Scrum Master, Manager (arc), JIRA, AI — each spans 3 */
+      .cast-portraits > .portrait-card:nth-child(1) {
+        order: 4;
+      }
+      .cast-portraits > .portrait-card:nth-child(5) {
+        order: 5;
+      }
+      .cast-portraits > .portrait-card:nth-child(6) {
+        order: 6;
+      }
+      .cast-portraits > .portrait-card:nth-child(7) {
+        order: 7;
+      }
+      @media (max-width: 720px) {
+        .cast-portraits {
+          grid-template-columns: repeat(6, 1fr);
+        }
+        .cast-portraits > .portrait-card,
+        .cast-portraits > .portrait-card:nth-child(n) {
+          grid-column: span 3;
+        }
+        .cast-portraits > .portrait-card--arc,
+        .cast-portraits > .portrait-card--arc:nth-child(n) {
+          grid-column: span 6;
         }
       }
       .portrait {
-        height: 100px;
+        height: 170px;
         display: flex;
         align-items: flex-end;
         justify-content: center;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.85rem;
       }
       .portrait svg {
         height: 100%;
         width: auto;
       }
       .portrait--arc {
-        gap: 0.4rem;
+        gap: 0.7rem;
       }
       .portrait__arrow {
         align-self: center;
         font-family: var(--font-mono);
-        font-size: 1.1rem;
+        font-size: 1.6rem;
         color: var(--color-gold);
         font-weight: 600;
       }
       .portrait__name {
         font-family: var(--font-mono);
-        font-size: 0.7rem;
+        font-size: 0.95rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.12em;
         color: var(--color-ink);
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.5rem;
       }
       .portrait__desc {
         font-family: var(--font-body);
-        font-size: 0.78rem;
-        line-height: 1.4;
+        font-size: 0.95rem;
+        line-height: 1.45;
         color: var(--color-ink-soft);
-        max-width: 16rem;
+        max-width: 22rem;
       }
 
       /* ============================================================
@@ -1603,20 +1638,20 @@
                   width="80"
                   height="76"
                   rx="4"
-                  fill="#5a6470"
+                  fill="#e8e0d0"
                   stroke="#1a1a1a"
                   stroke-width="2.4"
                 />
                 <rect x="20" y="24" width="60" height="46" fill="#1a1a1a" />
-                <rect x="28" y="36" width="14" height="10" fill="#5a6470" />
-                <rect x="58" y="36" width="14" height="10" fill="#5a6470" />
-                <rect x="28" y="54" width="44" height="6" fill="#7a9572" />
+                <rect x="28" y="36" width="14" height="10" fill="#4a6fa5" />
+                <rect x="58" y="36" width="14" height="10" fill="#4a6fa5" />
+                <rect x="28" y="54" width="44" height="6" fill="#1f4287" />
                 <rect
                   x="36"
                   y="90"
                   width="28"
                   height="14"
-                  fill="#5a6470"
+                  fill="#1f4287"
                   stroke="#1a1a1a"
                   stroke-width="2"
                 />
@@ -1624,7 +1659,7 @@
                   cx="50"
                   cy="10"
                   r="6"
-                  fill="#5a6470"
+                  fill="#1f4287"
                   stroke="#1a1a1a"
                   stroke-width="1.6"
                 />
@@ -1686,9 +1721,6 @@
             <div class="scene-block__header">
               <span class="kicker kicker--now reveal"
                 >1.1 · Now · Jira Timeline</span
-              >
-              <span class="kicker reveal" style="color: var(--color-gray)"
-                >28:00</span
               >
             </div>
             <h2
@@ -2325,9 +2357,6 @@
               <span class="kicker kicker--future reveal"
                 >1.2 · AI-Future · AI-Native Timeline</span
               >
-              <span class="kicker reveal" style="color: var(--color-gray)"
-                >04:00</span
-              >
             </div>
             <h2
               class="scene-block__title scene-block__title--future reveal reveal--d1"
@@ -2466,13 +2495,15 @@
                           fill="#c8973e"
                         />
                       </g>
-                      <!-- Soft upward smile -->
-                      <path
-                        d="M52,58 Q60,64 68,58"
+                      <!-- O-shape mouth (reaction) -->
+                      <ellipse
+                        cx="60"
+                        cy="60"
+                        rx="3"
+                        ry="4"
                         fill="none"
                         stroke="#1a1a1a"
                         stroke-width="1.8"
-                        stroke-linecap="round"
                       />
                     </g>
                   </svg>
@@ -2765,7 +2796,11 @@
                 <div
                   class="jc-bubble"
                   data-cue="d1"
-                  style="--anchor-x: 38%; --anchor-y: 62%; --tail-x: 50%"
+                  style="
+                    --anchor-x: 38%;
+                    --anchor-y: calc(62% + 5px);
+                    --tail-x: 50%;
+                  "
                 >
                   <div class="jc-bubble__speaker" style="color: #2d5f4e">
                     Dev 1
@@ -2794,7 +2829,11 @@
                 <div
                   class="jc-bubble"
                   data-cue="d2f"
-                  style="--anchor-x: 22%; --anchor-y: 62%; --tail-x: 14%"
+                  style="
+                    --anchor-x: 22%;
+                    --anchor-y: calc(62% + 5px);
+                    --tail-x: 14%;
+                  "
                 >
                   <div
                     class="jc-bubble__speaker"
@@ -3652,14 +3691,24 @@
                       />
                       <circle cx="52" cy="48" r="2.4" fill="#1a1a1a" />
                       <circle cx="68" cy="48" r="2.4" fill="#1a1a1a" />
-                      <g class="sparkle" style="transform-origin: 56px 45px">
-                        <path
-                          d="M55,43 L56,45 L58,46 L56,47 L55,49 L54,47 L52,46 L54,45 Z"
-                          fill="#c8973e"
-                        />
-                      </g>
+                      <!-- Skeptical: raised right brow, flat left brow -->
                       <path
-                        d="M52,58 Q60,64 68,58"
+                        d="M62,40 Q68,36 74,40"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M46,42 Q52,40 58,42"
+                        fill="none"
+                        stroke="#1a1a1a"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                      />
+                      <!-- Pursed/sideways mouth -->
+                      <path
+                        d="M53,60 Q60,58 67,61"
                         fill="none"
                         stroke="#1a1a1a"
                         stroke-width="1.8"
@@ -3822,7 +3871,7 @@
                       cy="46"
                       r="36"
                       fill="#c47a4d"
-                      opacity="0.22"
+                      opacity="0.14"
                     />
                     <ellipse
                       cx="60"
@@ -3906,7 +3955,11 @@
                 <div
                   class="jc-bubble"
                   data-cue="d2f"
-                  style="--anchor-x: 22%; --anchor-y: 62%; --tail-x: 14%"
+                  style="
+                    --anchor-x: 22%;
+                    --anchor-y: calc(62% + 10px);
+                    --tail-x: 14%;
+                  "
                 >
                   <div
                     class="jc-bubble__speaker"
@@ -3939,7 +3992,11 @@
                 <div
                   class="jc-bubble"
                   data-cue="d1"
-                  style="--anchor-x: 38%; --anchor-y: 62%; --tail-x: 50%"
+                  style="
+                    --anchor-x: 38%;
+                    --anchor-y: calc(62% + 10px);
+                    --tail-x: 50%;
+                  "
                 >
                   <div class="jc-bubble__speaker" style="color: #2d5f4e">
                     Dev 1
@@ -4740,7 +4797,7 @@
                   class="jc-bubble jc-bubble--mech"
                   data-cue="jira"
                   data-slump="3"
-                  style="--anchor-x: 78%; --anchor-y: 62%; --tail-x: 86%"
+                  style="--anchor-x: 86%; --anchor-y: 62%; --tail-x: 92%"
                 >
                   <div
                     class="jc-bubble__speaker"
@@ -5063,7 +5120,7 @@
                       cy="46"
                       r="36"
                       fill="#c47a4d"
-                      opacity="0.22"
+                      opacity="0.14"
                     />
                     <ellipse
                       cx="60"
@@ -5265,24 +5322,24 @@
                     >
                       VELOCITY · Q4
                     </text>
-                    <rect x="14" y="30" width="44" height="22" fill="#5a6470" />
-                    <rect x="62" y="36" width="44" height="16" fill="#5a6470" />
+                    <rect x="14" y="30" width="44" height="22" fill="#1f4287" />
+                    <rect x="62" y="36" width="44" height="16" fill="#4a6fa5" />
                     <rect
                       x="110"
                       y="42"
                       width="44"
                       height="10"
-                      fill="#5a6470"
-                      opacity="0.5"
+                      fill="#7a3b3b"
+                      opacity="0.85"
                     />
-                    <rect x="14" y="58" width="86" height="6" fill="#7a9572" />
+                    <rect x="14" y="58" width="86" height="6" fill="#1f4287" />
                     <text
                       x="186"
                       y="64"
                       font-family="'JetBrains Mono', monospace"
                       font-size="8"
                       font-weight="600"
-                      fill="#7a9572"
+                      fill="#1f4287"
                       letter-spacing="0.5"
                       text-anchor="end"
                     >
@@ -5319,14 +5376,6 @@
                         fill="#9c5c40"
                       />
                       <rect
-                        x="58"
-                        y="74"
-                        width="4"
-                        height="44"
-                        fill="#1a1a1a"
-                      />
-                      <polygon points="56,74 64,74 60,86" fill="#1a1a1a" />
-                      <rect
                         x="34"
                         y="160"
                         width="16"
@@ -5344,7 +5393,7 @@
                       <ellipse cx="78" cy="194" rx="11" ry="3" fill="#1a1a1a" />
                       <circle cx="60" cy="46" r="22" fill="#f4c9a3" />
                       <path
-                        d="M44,40 Q50,28 60,28 Q70,28 76,40 Q70,34 60,34 Q50,34 44,40 Z"
+                        d="M40,42 Q44,28 60,26 Q76,28 80,42 Q76,36 60,34 Q44,36 40,42 Z"
                         fill="#1a1a1a"
                       />
                       <rect x="40" y="38" width="6" height="3" fill="#6b6b6b" />
@@ -5403,17 +5452,21 @@
                   </svg>
                 </div>
 
-                <!-- JIRA, full presence — explicit inline sizing so the slot can't squeeze it -->
-                <div class="cast-slot">
+                <!-- JIRA, full presence — height-driven so the 3-col slot can't clip the base -->
+                <div
+                  class="cast-slot"
+                  style="justify-content: flex-start; padding-top: 6%"
+                >
                   <svg
                     viewBox="0 0 130 200"
                     class="jc-jira"
                     aria-label="JIRA, the machine"
+                    preserveAspectRatio="xMidYMax meet"
                     style="
-                      height: 100%;
+                      height: 72%;
                       max-height: 100%;
                       width: auto;
-                      align-self: flex-end;
+                      max-width: none;
                     "
                   >
                     <ellipse
@@ -5646,9 +5699,9 @@
                   class="jc-bubble jc-bubble--whisper"
                   data-cue="d3"
                   style="
-                    --anchor-x: 70%;
-                    --anchor-y: 62%;
-                    --tail-x: 80%;
+                    --anchor-x: calc(85% - 2px);
+                    --anchor-y: calc(62% - 10px);
+                    --tail-x: 90%;
                     max-width: 22rem;
                   "
                 >
@@ -5683,7 +5736,11 @@
                 <div
                   class="jc-bubble"
                   data-cue="d3"
-                  style="--anchor-x: 78%; --anchor-y: 62%; --tail-x: 86%"
+                  style="
+                    --anchor-x: 78%;
+                    --anchor-y: calc(62% - 14px);
+                    --tail-x: 86%;
+                  "
                 >
                   <div
                     class="jc-bubble__speaker"
@@ -5691,7 +5748,7 @@
                   >
                     Dev 3
                   </div>
-                  Cool. Cool cool cool.
+                  Cool….. cool cool cool…..
                   <div class="jc-bubble__tail">
                     <svg viewBox="0 0 18 14">
                       <path d="M2,0 L9,12 L18,0 Z" fill="#f5f3ee" />
@@ -5862,14 +5919,6 @@
                         fill="#c47a4d"
                       />
                       <rect
-                        x="58"
-                        y="74"
-                        width="4"
-                        height="44"
-                        fill="#1a1a1a"
-                      />
-                      <polygon points="56,74 64,74 60,86" fill="#1a1a1a" />
-                      <rect
                         x="34"
                         y="160"
                         width="16"
@@ -5887,7 +5936,7 @@
                       <ellipse cx="78" cy="194" rx="11" ry="3" fill="#1a1a1a" />
                       <circle cx="60" cy="46" r="22" fill="#f4c9a3" />
                       <path
-                        d="M44,40 Q50,28 60,28 Q70,28 76,40 Q70,34 60,34 Q50,34 44,40 Z"
+                        d="M40,42 Q44,28 60,26 Q76,28 80,42 Q76,36 60,34 Q44,36 40,42 Z"
                         fill="#1a1a1a"
                       />
                       <rect x="40" y="38" width="6" height="3" fill="#6b6b6b" />
@@ -5954,9 +6003,9 @@
                       class="jc-d3-halo"
                       cx="60"
                       cy="46"
-                      r="42"
+                      r="36"
                       fill="#c47a4d"
-                      opacity="0.28"
+                      opacity="0.14"
                     />
                     <ellipse
                       cx="60"
@@ -6021,7 +6070,7 @@
                     class="jc-ai"
                     id="visibleAi"
                     aria-label="AI presence"
-                    style="height: 70%"
+                    style="height: 52%"
                   >
                     <g class="jc-ai-glow">
                       <circle
@@ -6059,24 +6108,53 @@
                 <div
                   class="jc-bubble jc-bubble--ai"
                   data-cue="ai"
-                  style="--anchor-x: 78%; --anchor-y: 54%; --tail-x: 86%"
+                  style="
+                    --anchor-x: 78%;
+                    --anchor-y: calc(54% - 100px);
+                    --tail-x: 86%;
+                  "
                 >
                   <div class="jc-bubble__speaker">AI</div>
-                  <div class="jc-bubble__lede">team-health · Q4 · Dev 3:</div>
+                  <div class="jc-bubble__lede">
+                    actually — let's talk about
+                    <strong style="color: var(--color-d3-future)">Dev 3</strong
+                    >. ✦
+                  </div>
+                  <div class="jc-bubble__lede">
+                    here's what
+                    <strong style="color: var(--color-d3-future)">Dev 3</strong>
+                    did this quarter that no ticket captured:
+                  </div>
                   <ul class="jc-bubble__list">
-                    <li>unblocked 23 PRs · review turnaround &lt; 2h</li>
-                    <li>onboarded 2 new contributors · now autonomous</li>
-                    <li>deployment runbook · -40% incident response time</li>
+                    <li>
+                      unblocked <strong>23 PRs</strong> · review turnaround &lt;
+                      2h
+                    </li>
+                    <li>
+                      mentored <strong>2 junior devs</strong> · now shipping
+                      autonomously
+                    </li>
+                    <li>
+                      rewrote the deployment runbook ·
+                      <strong>-40%</strong> incident response time
+                    </li>
+                    <li>de-escalated a stakeholder conflict (off-record)</li>
                   </ul>
                 </div>
                 <div
                   class="jc-bubble jc-bubble--ai"
                   data-cue="ai"
-                  style="--anchor-x: 78%; --anchor-y: 54%; --tail-x: 86%"
+                  style="
+                    --anchor-x: 78%;
+                    --anchor-y: calc(54% - 36px);
+                    --tail-x: 86%;
+                  "
                 >
                   <div class="jc-bubble__speaker">AI</div>
+                  <strong style="color: var(--color-d3-future)">Dev 3</strong>'s
                   velocity looked low because the system was only counting
-                  tickets. actual impact was multiplied across the team.
+                  tickets. their actual impact was multiplied across the entire
+                  team.
                   <div class="jc-bubble__tail">
                     <svg viewBox="0 0 18 14">
                       <path d="M2,0 L9,12 L18,0 Z" fill="#f9f5ed" />
@@ -6101,7 +6179,11 @@
                 <div
                   class="jc-bubble jc-bubble--whisper"
                   data-cue="d3"
-                  style="--anchor-x: 50%; --anchor-y: 62%; --tail-x: 50%"
+                  style="
+                    --anchor-x: 50%;
+                    --anchor-y: calc(62% + 18px);
+                    --tail-x: 50%;
+                  "
                 >
                   <div
                     class="jc-bubble__speaker"
@@ -6347,14 +6429,6 @@
                         fill="#9c5c40"
                       />
                       <rect
-                        x="58"
-                        y="74"
-                        width="4"
-                        height="44"
-                        fill="#1a1a1a"
-                      />
-                      <polygon points="56,74 64,74 60,86" fill="#1a1a1a" />
-                      <rect
                         x="34"
                         y="160"
                         width="16"
@@ -6372,7 +6446,7 @@
                       <ellipse cx="78" cy="194" rx="11" ry="3" fill="#1a1a1a" />
                       <circle cx="60" cy="46" r="22" fill="#f4c9a3" />
                       <path
-                        d="M44,40 Q50,28 60,28 Q70,28 76,40 Q70,34 60,34 Q50,34 44,40 Z"
+                        d="M40,42 Q44,28 60,26 Q76,28 80,42 Q76,36 60,34 Q44,36 40,42 Z"
                         fill="#1a1a1a"
                       />
                       <rect x="40" y="38" width="6" height="3" fill="#6b6b6b" />
@@ -6760,7 +6834,7 @@
                   class="jc-bubble jc-bubble--mech"
                   data-cue="jira"
                   data-slump="3"
-                  style="--anchor-x: 50%; --anchor-y: 62%; --tail-x: 50%"
+                  style="--anchor-x: 50%; --anchor-y: 70%; --tail-x: 50%"
                 >
                   <div
                     class="jc-bubble__speaker"
@@ -7579,6 +7653,7 @@
                 <div
                   class="jc-bubble"
                   data-cue="d2f"
+                  data-after-board="true"
                   style="--anchor-x: 22%; --anchor-y: 62%; --tail-x: 14%"
                 >
                   <div
@@ -7620,12 +7695,12 @@
       <section class="beat" data-beat="12">
         <div class="beat__inner">
           <div class="closing">
-            <div class="closing__kicker reveal">A thought experiment</div>
+            <div class="closing__kicker reveal">The thought exercise</div>
             <h2 class="closing__title reveal reveal--d1">
-              This didn't start with a ticket.
+              If you could imagine a future without Jira…
             </h2>
             <p class="closing__line reveal reveal--d2">
-              It started with a conversation.
+              What would it look like?
             </p>
           </div>
         </div>
@@ -7646,7 +7721,7 @@
                 margin-bottom: 0.8rem;
               "
             >
-              Meet the cast
+              Meet the team
             </div>
             <div class="cast-portraits reveal reveal--d1">
               <!-- Scrum Master -->
@@ -7717,7 +7792,7 @@
                 </div>
                 <div class="portrait__name">Scrum Master</div>
                 <div class="portrait__desc">
-                  Earnest. Doing their best with a bad system.
+                  Earnest. Doing their best within a flawed system.
                 </div>
               </div>
 
@@ -7809,7 +7884,8 @@
                 </div>
                 <div class="portrait__name">Dev 1</div>
                 <div class="portrait__desc">
-                  Eager, still trying to prove themselves. Not burned out yet.
+                  Eager, still trying to prove themselves. Not stifled by
+                  process yet.
                 </div>
               </div>
 
@@ -8002,7 +8078,7 @@
                       cy="46"
                       r="36"
                       fill="#c47a4d"
-                      opacity="0.22"
+                      opacity="0.14"
                     />
                     <ellipse
                       cx="60"
@@ -8246,8 +8322,7 @@
                 </div>
                 <div class="portrait__name">Manager</div>
                 <div class="portrait__desc">
-                  <em>Now:</em> only sees metrics. <em>Future:</em> able to see
-                  beyond the metrics.
+                  Went from only seeing metrics, to seeing the work beyond.
                 </div>
               </div>
 
@@ -8662,8 +8737,9 @@
           });
         }
 
-        // Beat 11: Relapse Future — AI says a quick line, then bubble vanishes
-        // and the board materializes in its place.
+        // Beat 11: Relapse Future — AI says "say less", then the AI bubble
+        // vanishes, the board materializes, and only then Dev 2's reaction
+        // appears. The board is dismissed once the beat scrolls out of view.
         function runRelapseFuture(beat) {
           const ai = document.getElementById("relapseAi");
           const board = document.getElementById("relapseBoard");
@@ -8678,22 +8754,52 @@
                 aiBubbleTriggered = true;
                 if (ai) {
                   ai.classList.add("is-speaking");
-                  setTimeout(() => ai.classList.remove("is-speaking"), 1400);
+                  setTimeout(() => ai.classList.remove("is-speaking"), 1800);
                 }
-                // After ~1.4s: dismiss AI bubble, reveal board.
+                // Let the AI bubble stay visible (scroll controls dismissal).
+                // After it's been on screen long enough to read, materialize
+                // the board. Dev 2's reaction is gated below until then.
                 setTimeout(() => {
-                  bubble.dataset.spent = "true";
-                  bubble.classList.remove("is-in");
-                  bubble.classList.add("is-out");
-                  setTimeout(() => bubble.classList.remove("is-out"), 360);
                   if (board) board.classList.add("is-revealed");
-                }, 1400);
+                }, 1100);
+              }
+
+              // Gate the post-board Dev 2 line: if user scrolls into it before
+              // the board has appeared, hold the bubble until the board is in.
+              if (bubble.dataset.afterBoard === "true") {
+                const boardReady = board?.classList.contains("is-revealed");
+                if (!boardReady) {
+                  bubble.style.opacity = "0";
+                  bubble.style.pointerEvents = "none";
+                  if (board) board.classList.add("is-revealed");
+                  setTimeout(() => {
+                    bubble.style.opacity = "";
+                    bubble.style.pointerEvents = "";
+                  }, 900);
+                }
               }
 
               if (cue === lastSpeaker) return;
               lastSpeaker = cue;
             },
           });
+
+          // Hide the generated board once the beat has scrolled past.
+          // Reset the AI trigger so re-entering replays the sequence.
+          if (board && "IntersectionObserver" in window) {
+            const obs = new IntersectionObserver(
+              (entries) => {
+                for (const entry of entries) {
+                  if (!entry.isIntersecting) {
+                    board.classList.remove("is-revealed");
+                    aiBubbleTriggered = false;
+                  }
+                }
+              },
+              { threshold: 0.05 },
+            );
+            obs.observe(beat);
+          }
         }
 
         // Keyboard nav
